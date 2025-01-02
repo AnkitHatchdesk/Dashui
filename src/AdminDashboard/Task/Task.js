@@ -3,14 +3,15 @@ import TaskList from "./TaskList";
 import Rating from "../Rating/Rating";
 
 
+
 function Task() {
   return (
     <>
       <div className="Container-fluid">
         <div className="Container">
-          <div className="row g-4 mx-3">
+          <div className="row">
             <div className="col-lg-8">
-              <div class="today-task mt-4">
+              <div class="today-task ">
                 <div class="today-task-body">
                   <h5 class="card-title mb-4">Today's Tasks</h5>
                   <div class="">
@@ -36,10 +37,19 @@ function Task() {
                   </div>
                 </div>
                 <TaskList />
+                <TaskList />
+                <TaskList />
+                <TaskList />
+                <TaskList />
+                <TaskList />
+                <TaskList />
+                <TaskList />
+                <TaskList />
+                <TaskList />
               </div>
             </div>
             <div className="col-lg-4">
-            <Rating />
+            <Rating/>
             </div>
           </div>
         </div>

@@ -1,7 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../AdminDashboard/Context/AuthContext";
+
 
 function Navbar() {
+  const { isLoggedIn, handleLogOut, user } = useAuth();
+  const token = localStorage.getItem("token");
+
+  console.log("token", token);
   return (
     <div class="topbar sticky-top">
       <div class="d-flex justify-content-between align-items-center mb-4 me-3 px-3 top-bar index-nav">
@@ -32,7 +38,7 @@ function Navbar() {
           </div>
           <div class="avatar pt-2">
             <div class="avatar-para">
-              <p>Anima_Agrwal</p>
+              <p className="ms-2">{`${user.firstName} ${user.lastName}`}</p>
               <span class="avatar-address"> up india</span>
             </div>
           </div>
@@ -48,27 +54,31 @@ function Navbar() {
               class="dropdown-menu dropdown-menu-end"
               aria-labelledby="dropdownMenuButton"
             >
-              <li className="d-flex justify-content-start align-items-center p-2">
-                <i
-                  className="fas fa-sign-in-alt"
-                  style={{ fontSize: "20px" }}
-                ></i>
-                <Link className="dropdown-item" to="/login">
-                  Log in
-                </Link>
-              </li>
-              <li className="d-flex justify-content-start align-items-center p-2">
-                <i
-                  class="fa-solid fa-right-from-bracket"
-                  style={{ fontSize: "20px" }}
-                ></i>
-                <Link className="dropdown-item" to="/login">
-                  Log Out
-                </Link>
-              </li>
+              {/* for logged in   */}
+              {token ? (
+                <li className="d-flex justify-content-start align-items-center p-2">
+                  <i
+                    className="fa-solid fa-right-from-bracket"
+                    style={{ fontSize: "20px" }}
+                  ></i>
+                  <button className="dropdown-item" onClick={handleLogOut}>
+                    Log Out
+                  </button>
+                </li>
+              ) : (
+                <li className="d-flex justify-content-start align-items-center p-2">
+                  <i
+                    className="fas fa-sign-in-alt"
+                    style={{ fontSize: "20px" }}
+                  ></i>
+                  <Link className="dropdown-item" to="/login">
+                    Log in
+                  </Link>
+                </li>
+              )}
               <li className="d-flex justify-content-start align-items-center p-2">
                 <i class="fa-solid fa-user" style={{ fontSize: "20px" }}></i>
-                <Link className="dropdown-item" to="/login">
+                <Link className="dropdown-item" to="/profile">
                   My Profile
                 </Link>
               </li>
@@ -77,7 +87,7 @@ function Navbar() {
                   class="fa-duotone fa-solid fa-gear"
                   style={{ fontSize: "20px" }}
                 ></i>
-                <Link className="dropdown-item" to="/login">
+                <Link className="dropdown-item" to="/">
                   Settings
                 </Link>
               </li>

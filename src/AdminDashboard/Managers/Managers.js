@@ -1,12 +1,16 @@
 import React from "react";
 import ManagerList from "./ManagerList";
+import styles from "./Manager.module.css";
+import { useManager } from "../Context/ManagerContext";
+import Loader from "../../Loader";
 
 function Managers() {
+  const {managers , loading} = useManager();
   return (
     <>
       <div>
         <div className="todo-container">
-          <div className="welcome-text ps-3">Manage Managers</div>
+          <div className="welcome-text ps-3 fs-2">Manage Managers</div>
           <div className="d-flex align-items-center me-4">
             <div className="todo-group">
               <button className="invite-button">
@@ -29,7 +33,7 @@ function Managers() {
         <div className="container">
           <div className="manager-member-box">
             <div>
-              <div className="mnager-member d-flex justify-content-between mt-2 mx-2">
+              <div className="mnager-member d-flex justify-content-between mt-2 mx-2 mb-3">
                 <div className="manager-head">
                   <p></p>
                 </div>
@@ -63,12 +67,12 @@ function Managers() {
                 </div>
               </div>
               <div className="container-xl">
-                <div className="table-responsive">
+                <div className={`table-responsive ${styles.tables}`}>
                   <div className="table-wrapper">
                     <div className="table-title">
                       <div className="row">
                         <div className="col-sm-6">
-                          <h2>Manage Contacts</h2>
+                          <h2 className="fs-2 text-black">Managers</h2>
                         </div>
                       </div>
                     </div>
@@ -76,15 +80,31 @@ function Managers() {
                       <thead>
                         <tr>
                           <th>Name</th>
-                          <th>Project</th>
-                          <th>Due Date</th>
-                          <th>Status</th>
-                          <th>Progress</th>
+                          <th>Project Name</th>
+                          <th>Date</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <ManagerList />
+                      {loading ? (
+                          <tr>
+                            <Loader loading={loading} />
+                          </tr>
+                        ) : managers && managers.length > 0 ? (
+                          managers.map((managers) => (
+                            <ManagerList
+                              key={managers.id}
+                              managers={managers}
+                              // handleOpenModal={handleOpenModal}
+                            />
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="6" className="text-center">
+                              No projects available
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                     <div className="clearfix">
