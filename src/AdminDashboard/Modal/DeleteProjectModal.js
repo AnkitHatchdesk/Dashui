@@ -1,6 +1,6 @@
 import React from "react";
 
-function DeleteModal({ showModal, projID, handleCloseModal, handleDelete }) {
+function DeleteProjectModal({ showModal, projID, handleCloseModal, handleDelete }) {
   if (!showModal) return null;
 
   return (
@@ -32,4 +32,4 @@ function DeleteModal({ showModal, projID, handleCloseModal, handleDelete }) {
   );
 }
 
-export default DeleteModal;
+export default DeleteProjectModal;

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function ProjectList({ project , handleOpenModal}) {
+function ProjectList({ project, handleOpenModal }) {
 
- 
+
   const formatDate = (date) => {
     return date ? date.split("T")[0] : "";
   };
 
-  
+
 
   return (
     <tr className="text-start">
@@ -27,7 +27,7 @@ function ProjectList({ project , handleOpenModal}) {
         </Link>
 
         <button
-      onClick={() => handleOpenModal(project.projID)}
+          onClick={() => handleOpenModal(project.projID)}
           className="btn btn-danger btn-sm"
           title="Delete"
         >

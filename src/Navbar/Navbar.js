@@ -1,98 +1,72 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../AdminDashboard/Context/AuthContext";
-
+import { Dropdown } from "react-bootstrap"; // Import Dropdown from react-bootstrap
 
 function Navbar() {
   const { isLoggedIn, handleLogOut, user } = useAuth();
   const token = localStorage.getItem("token");
 
-  console.log("token", token);
   return (
-    <div class="topbar sticky-top">
-      <div class="d-flex justify-content-between align-items-center mb-4 me-3 px-3 top-bar index-nav">
-        <div class="d-flex main-content-icon-box">
-          <div class="search-input-box">
-            <form class="search_box">
-              <i class="bi bi-search"></i>
+    <div className="topbar sticky-top">
+      <div className="d-flex justify-content-between align-items-center mb-4 me-3 px-3 top-bar index-nav">
+        <div className="d-flex main-content-icon-box">
+          <div className="search-input-box">
+            <form className="search_box">
+              <i className="bi bi-search"></i>
               <input
                 type="search"
-                class="search-input"
+                className="search-input"
                 placeholder="Search for anything..."
               />
             </form>
           </div>
         </div>
 
-        <div class="d-flex align-items-center">
-          <div class="main-content-icon d-flex">
-            <div class="calender-icon me-3">
-              <i class="bi bi-calendar2-check"></i>
+        <div className="d-flex align-items-center">
+          <div className="main-content-icon d-flex">
+            <div className="calender-icon me-3">
+              <i className="bi bi-calendar2-check"></i>
             </div>
-            <div class="chat-icon me-3">
-              <i class="bi bi-chat-square-text"></i>
+            <div className="chat-icon me-3">
+              <i className="bi bi-chat-square-text"></i>
             </div>
-            <div class="bell-icon me-3">
-              <i class="bi bi-bell"></i>
+            <div className="bell-icon me-3">
+              <i className="bi bi-bell"></i>
             </div>
           </div>
-          <div class="avatar pt-2">
-            <div class="avatar-para">
+          <div className="avatar pt-2">
+            <div className="avatar-para">
               <p className="ms-2">{`${user.firstName} ${user.lastName}`}</p>
-              <span class="avatar-address"> up india</span>
+              <span className="avatar-address">up india</span>
             </div>
           </div>
-          <div class="topbar-dropdown dropdown pe-3">
-            <button
-              class="btn dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            ></button>
-            <ul
-              class="dropdown-menu dropdown-menu-end"
-              aria-labelledby="dropdownMenuButton"
-            >
-              {/* for logged in   */}
+
+          {/* React-bootstrap Dropdown */}
+          <Dropdown align="end">
+            <Dropdown.Toggle variant="link" id="dropdown-basic" className="btn text-black">
+              {/* Empty button to toggle dropdown */}
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              {/* Token check for logged in */}
               {token ? (
-                <li className="d-flex justify-content-start align-items-center p-2">
-                  <i
-                    className="fa-solid fa-right-from-bracket"
-                    style={{ fontSize: "20px" }}
-                  ></i>
-                  <button className="dropdown-item" onClick={handleLogOut}>
-                    Log Out
-                  </button>
-                </li>
+                <Dropdown.Item onClick={handleLogOut}>
+                  <i className="fa-solid fa-right-from-bracket me-2"></i> Log Out
+                </Dropdown.Item>
               ) : (
-                <li className="d-flex justify-content-start align-items-center p-2">
-                  <i
-                    className="fas fa-sign-in-alt"
-                    style={{ fontSize: "20px" }}
-                  ></i>
-                  <Link className="dropdown-item" to="/login">
-                    Log in
-                  </Link>
-                </li>
+                <Dropdown.Item as={Link} to="/login">
+                  <i className="fas fa-sign-in-alt me-2"></i> Log In
+                </Dropdown.Item>
               )}
-              <li className="d-flex justify-content-start align-items-center p-2">
-                <i class="fa-solid fa-user" style={{ fontSize: "20px" }}></i>
-                <Link className="dropdown-item" to="/profile">
-                  My Profile
-                </Link>
-              </li>
-              <li className="d-flex justify-content-start align-items-center p-2">
-                <i
-                  class="fa-duotone fa-solid fa-gear"
-                  style={{ fontSize: "20px" }}
-                ></i>
-                <Link className="dropdown-item" to="/">
-                  Settings
-                </Link>
-              </li>
-            </ul>
-          </div>
+              <Dropdown.Item as={Link} to="/profile">
+                <i className="fa-solid fa-user me-2"></i> My Profile
+              </Dropdown.Item>
+              <Dropdown.Item as={Link} to="/">
+                <i className="fa-solid fa-gear me-2"></i> Settings
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </div>
     </div>

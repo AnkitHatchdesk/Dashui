@@ -4,7 +4,8 @@ import { useProject } from "../Context/ProjectContext";
 import Loader from "../../Loader";
 import styles from "./Project.module.css";
 import { Link } from "react-router-dom";
-import DeleteModal from "../Modal/DeleteModal";
+import DeleteModal from "../Modal/DeleteProjectModal";
+
 
 const Projects = () => {
   const {

@@ -1,11 +1,30 @@
 import React from "react";
 import ManagerList from "./ManagerList";
+import Button from "react-bootstrap/Button";
 import styles from "./Manager.module.css";
 import { useManager } from "../Context/ManagerContext";
 import Loader from "../../Loader";
+import AddManager from "./AddManager";
+import EditManager from "./EditManager";
+import DeleteManagerModal from "../Modal/DeleteManagerModal";
+
 
 function Managers() {
-  const {managers , loading} = useManager();
+  const {
+    managers,
+    loading,
+    handleShow,
+    selectedManager,
+    showDeleteModal,
+    handleDelete,
+    handleCloseDeleteModal,
+    managerToDelete,
+    handleDeleteOpenModal
+    
+  } = useManager();
+
+  console.log("managers in managers", managers);
+
   return (
     <>
       <div>
@@ -13,7 +32,11 @@ function Managers() {
           <div className="welcome-text ps-3 fs-2">Manage Managers</div>
           <div className="d-flex align-items-center me-4">
             <div className="todo-group">
-              <button className="invite-button">
+              <button
+                className={`${styles.invitebutton} container d-flex justify-content-center align-items-center `}
+                style={{ width: "160px" }}
+                onClick={() => handleShow(null)} // Add Member ke liye
+              >
                 Add Member{" "}
                 <span>
                   <i className="bi bi-plus-lg"></i>
@@ -86,69 +109,28 @@ function Managers() {
                         </tr>
                       </thead>
                       <tbody>
-                      {loading ? (
+                        {loading ? (
                           <tr>
                             <Loader loading={loading} />
                           </tr>
                         ) : managers && managers.length > 0 ? (
-                          managers.map((managers) => (
+                          managers.map((manager) => (
                             <ManagerList
-                              key={managers.id}
-                              managers={managers}
-                              // handleOpenModal={handleOpenModal}
+                              key={manager.id}
+                              manager={manager}
+                              handleShow={() => handleShow(manager)} 
+                              handleDeleteOpenModal = {handleDeleteOpenModal}// Edit manager ke liye
                             />
                           ))
                         ) : (
                           <tr>
-                            <td colSpan="6" className="text-center">
-                              No projects available
+                            <td colSpan="4" className="text-center">
+                              No managers available
                             </td>
                           </tr>
                         )}
                       </tbody>
                     </table>
-                    <div className="clearfix">
-                      <div className="hint-text">
-                        Showing <b>5</b> out of <b>25</b> entries
-                      </div>
-                      <ul className="pagination">
-                        <li className="page-item">
-                          <a href="#" className="page-link">
-                            Previous
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a href="#" className="page-link">
-                            1
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a href="#" className="page-link">
-                            2
-                          </a>
-                        </li>
-                        <li className="page-item active">
-                          <a href="#" className="page-link">
-                            3
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a href="#" className="page-link">
-                            4
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a href="#" className="page-link">
-                            5
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a href="#" className="page-link">
-                            Next
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -156,6 +138,15 @@ function Managers() {
           </div>
         </div>
       </div>
+      {/* Conditional rendering based on selectedManager */}
+      {selectedManager === null && <AddManager />} {/* Add Manager modal */}
+      {selectedManager !== null && <EditManager />} {/* Edit Manager modal */}
+      <DeleteManagerModal
+        showDeleteModal={showDeleteModal}
+        handleCloseDeleteModal={handleCloseDeleteModal}
+        handleDelete={handleDelete}
+        managerID={managerToDelete}
+      />
     </>
   );
 }

@@ -1,0 +1,173 @@
+.todocontainer {
+    padding: 0px 30px 0px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 8px;
+  }
+
+  .welcometext {
+    font-size: 24px;
+    font-weight: 500;
+    color: #000;
+    margin-left: 16px;
+  }
+  
+  .todogroup {
+    display: flex;
+    align-items: center;
+    gap: -10px;
+  }
+  
+  .todoavatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid #fff;
+    margin-left: 5px;
+  }
+
+
+.invitebutton {
+    border: 1px solid #ff4d6d;
+    color: #ff4d6d;
+    width: 96px;
+    height: 36px;
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-size: 14px;
+    margin-left: 15px;
+  }
+  
+  .invitebutton:hover {
+    background-color: #ff3357;
+    color: #fff;
+  }
+  .invitebutton i {
+    padding-right: 5px;
+    padding-top: 5px;
+  }
+
+  .addavatar {
+    /* position: absolute;
+    right: 150px; */
+    color: #fff;
+    margin-left: -25px;
+  }
+
+  .outerbox {
+    border: 2px solid #007bff;
+    border-radius: 10px;
+    padding: 40px;
+    margin-top: 20px;
+    height: auto;
+  }
+  .innerbox {
+    /* border: 1px solid #6c757d; */
+    border-radius: 5px;
+    padding: 15px;
+    height: 100%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  .innerbox h2 {
+    color: #343a40;
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+  }
+  .innerbox p {
+    color: #6c757d;
+  }
+
+
+  
+
+  .biclock {
+    position: absolute;
+    left: 20px;
+    top: 25px;
+    color: #888888;
+    width: 18px;
+    height: 18px;
+    /* border: 1px solid black; */
+    /* border: 1px solid #a1a3ab; */
+    background: #f5f8ff;
+  }
+  .bidot {
+    vertical-align: center;
+    padding-left: 15px;
+    font-size: 20px;
+  }
+  .Todoinner {
+    border: 1px solid black;
+    border-radius: 15px;
+  }
+  .threedot {
+    font-size: 38px;
+  }
+
+
+  .Todoinnerdasborad {
+    border: 1px solid black;
+    border-radius: 15px;
+    /* width: 340px !important; */
+    height: 150px;
+    align-items: center;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .managerdasboardheading {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    line-height: 2;
+    padding-top: 5px;
+    padding-left: 15px;
+  }
+
+  .bithreedots {
+    color: #a1a3ab;
+    line-height: 1;
+  }
+
+  .deshboasrpara {
+    align-items: center;
+  }
+
+  .managerinnerboximg img {
+    width: 100px;
+    height: 88px;
+    border-radius: 14px;
+    background-repeat: no-repeat;
+  }
+  
+
+  @media (max-width: 1042px) {
+    .todocontainer {
+      display: flex;
+      /* flex-direction: column; */
+      gap: 15px;
+      text-align: center;
+    }
+    .innerbox {
+      width: 100% !important;
+    }
+    .todogroup {
+      justify-content: center;
+    }
+    .innerouterbox {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+      }
+      .todobox {
+        width: 100% !important;
+      }
+      .taskbox {
+        width: 100% !important;
+        height: auto;
+      }
+      .desboarcreated {
+        padding-top: 17px !important;
+      }
+  }

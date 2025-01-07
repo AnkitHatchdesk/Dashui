@@ -1655,6 +1655,32 @@ body.dark {
   
   
 
+  /* .offcanvas {
+    height: 100vh; 
+  } */
+  .upload-box {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    text-align: center;
+    color: #888;
+    background-color: #f9f9f9;
+    position: relative;
+    cursor: pointer;
+  }
+  .upload-box input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+  .upload-box img {
+    margin-bottom: 10px;
+  }
+  
+
 
 
  

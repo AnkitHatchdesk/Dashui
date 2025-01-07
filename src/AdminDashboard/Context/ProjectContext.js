@@ -343,8 +343,8 @@ export const ProjectProvider = ({ children }) => {
  
 
   const handleDelete = async (projID) => {
-    alert("hi")
-    console.log("projID" , projID)
+    // alert("hi")
+    // console.log("projID" , projID)
     try {
       const response = await axiosInstance.delete(`/DeleteProject?id=${projID}`);
   

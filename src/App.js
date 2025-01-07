@@ -4,27 +4,25 @@ import {
   Route,
   Routes,
   useLocation,
-  useParams,
 } from "react-router-dom";
 import Login from "./Accoount/Login";
-
 import Register from "./Accoount/Register";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
 import { AuthProvider } from "./AdminDashboard/Context/AuthContext";
 import Managers from "./AdminDashboard/Managers/Managers";
 import { ProjectProvider } from "./AdminDashboard/Context/ProjectContext";
-
 import Projects from "./AdminDashboard/Projects/Projects";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import EditProject from "./AdminDashboard/Projects/EditProject";
 import Profile from "./AdminDashboard/Profile/Profile";
 import AddProject from "./AdminDashboard/Projects/AddProject";
 import { ManageProvider } from "./AdminDashboard/Context/ManagerContext";
 import AdminHome from "./AdminDashboard/AdminHome/AdminHome";
 import ManagerHome from "./ManagerDashboard/ManagerHome/ManagerHome";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 function Layout({ children }) {
   const location = useLocation();
@@ -71,7 +69,6 @@ function App() {
                   </Layout>
                 }
               />
-
               <Route
                 path="/ManagerHome"
                 element={
@@ -104,7 +101,7 @@ function App() {
                   </Layout>
                 }
               />
-
+           
               <Route
                 path="/projects"
                 element={
@@ -113,7 +110,6 @@ function App() {
                   </Layout>
                 }
               />
-
               <Route
                 path="/profile"
                 element={
@@ -134,47 +130,3 @@ function App() {
 }
 
 export default App;
-
-// import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-// import Login from './Accoount/Login';
-// import Home from './Home/Home';
-// import Register from './Accoount/Register';
-// import AddProject from './AddProject/AddProject';
-// import Navbar from './Navbar/Navbar';
-// import Sidebar from './Sidebar/Sidebar';
-// import { AuthProvider } from './Context/AuthContext';
-// import Managers from './Managers/Managers';
-
-// function App() {
-//   return (
-//     <Router>
-//       <AuthProvider>
-//         <div className="container-fluid">
-//           <div className="row">
-//             {/* Sidebar */}
-//             <div className="col-lg-2">
-//               <Sidebar />
-//             </div>
-
-//             {/* Main Content */}
-//             <div className="col-lg-10">
-//               {/* Navbar */}
-//               <Navbar />
-
-//               {/* Routes */}
-//               <Routes>
-//                 <Route path="/" element={<Home />} />
-//                 <Route path="/AddProject" element={<AddProject />} />
-//                 <Route path="/managers" element={<Managers />} />
-//                 <Route path="/login" element={<Login />} />
-//                 <Route path="/register" element={<Register />} />
-//               </Routes>
-//             </div>
-//           </div>
-//         </div>
-//       </AuthProvider>
-//     </Router>
-//   );
-// }
-
-// export default App;
