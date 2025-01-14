@@ -9,7 +9,7 @@ import Login from "./Accoount/Login";
 import Register from "./Accoount/Register";
 import Navbar from "./Navbar/Navbar";
 import Sidebar from "./Sidebar/Sidebar";
-import { AuthProvider } from "./AdminDashboard/Context/AuthContext";
+import { AuthProvider, useAuth } from "./AdminDashboard/Context/AuthContext";
 import Managers from "./AdminDashboard/Managers/Managers";
 import { ProjectProvider } from "./AdminDashboard/Context/ProjectContext";
 import Projects from "./AdminDashboard/Projects/Projects";
@@ -22,11 +22,22 @@ import { ManageProvider } from "./AdminDashboard/Context/ManagerContext";
 import AdminHome from "./AdminDashboard/AdminHome/AdminHome";
 import ManagerHome from "./ManagerDashboard/ManagerHome/ManagerHome";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ManagerDashProvider } from "./ManagerDashboard/Context/ManagerDashContext";
+import AddTask from "./ManagerDashboard/Task/AddTask";
+import EmployeeHome from "./EmployeeDashBoard/EmployeeHome";
+import Employee from "./AdminDashboard/Employee/Employee";
+import { EmployeeProvider } from "./AdminDashboard/Context/EmployeeContext";
+import AddEmployee from "./AdminDashboard/Employee/AddEmployee";
+import ManagerProjects from "./ManagerDashboard/ManagerProjects/ManagerProjects";
+import Task from "./AdminDashboard/Task/Task";
+import ManageTask from "./ManagerDashboard/Task/ManageTask";
+import EditTask from "./ManagerDashboard/Task/EditTask";
 
 
 function Layout({ children }) {
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { user } = useAuth();
 
   // Sidebar and Navbar hide for specific routes
   const hideSidebarAndNavbar = ["/login", "/register"].includes(
@@ -42,7 +53,7 @@ function Layout({ children }) {
     <div>
       <div>
         {!hideSidebarAndNavbar && (
-          <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+          <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} user={user} />
         )}
       </div>
       <div className={`home ${isSidebarOpen ? "" : "sidebar-closed"}`}>
@@ -60,67 +71,134 @@ function App() {
       <AuthProvider>
         <ProjectProvider>
           <ManageProvider>
-            <Routes>
-              <Route
-                path="/AdminHome"
-                element={
-                  <Layout>
-                    <AdminHome />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/ManagerHome"
-                element={
-                  <Layout>
-                    <ManagerHome />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/AddProject"
-                element={
-                  <Layout>
-                    <AddProject />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/Update/:projID"
-                element={
-                  <Layout>
-                    <EditProject />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/managers"
-                element={
-                  <Layout>
-                    <Managers />
-                  </Layout>
-                }
-              />
-           
-              <Route
-                path="/projects"
-                element={
-                  <Layout>
-                    <Projects />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <Layout>
-                    <Profile />
-                  </Layout>
-                }
-              />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Routes>
+            <ManagerDashProvider >
+              <EmployeeProvider>
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <Layout>
+                        <EmployeeHome />
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    path="/admin-dashboard"
+                    element={
+                      <Layout>
+                        <AdminHome />
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    path="/manager-dashboard"
+                    element={
+                      <Layout>
+                        <ManagerHome />
+                      </Layout>
+                    }
+                  />
+
+                  <Route
+                    path="/manager-projects"
+                    element={
+                      <Layout>
+                        <ManagerProjects />
+                      </Layout>
+                    }
+                  />
+
+                  <Route
+                    path="/ManageTask"
+                    element={
+                      <Layout>
+                        <ManageTask />
+                      </Layout>
+                    }
+                  />
+
+                  <Route
+                    path="/AddTask/:id"
+                    element={
+                      <Layout>
+                        <AddTask />
+                      </Layout>
+                    }
+                  />
+
+                  <Route
+                    path="/UpdateTask/:id"
+                    element={
+                      <Layout>
+                        <EditTask />
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    path="/AddProject"
+                    element={
+                      <Layout>
+                        <AddProject />
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    path="/Update/:id"
+                    element={
+                      <Layout>
+                        <EditProject />
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    path="/managers"
+                    element={
+                      <Layout>
+                        <Managers />
+                      </Layout>
+                    }
+                  />
+
+                  <Route
+                    path="/employees"
+                    element={
+                      <Layout>
+                        <Employee />
+                      </Layout>
+                    }
+                  />
+
+                  <Route
+                    path="/AddEmployee"
+                    element={
+                      <Layout>
+                        <AddEmployee />
+                      </Layout>
+                    }
+                  />
+
+
+                  <Route
+                    path="/projects"
+                    element={
+                      <Layout>
+                        <Projects />
+                      </Layout>
+                    }
+                  />
+                  <Route
+                    path="/profile"
+                    element={
+                      <Layout>
+                        <Profile />
+                      </Layout>
+                    }
+                  />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                </Routes>
+              </EmployeeProvider>
+            </ManagerDashProvider>
           </ManageProvider>
         </ProjectProvider>
       </AuthProvider>

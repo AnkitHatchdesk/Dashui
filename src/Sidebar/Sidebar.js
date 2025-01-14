@@ -2,7 +2,9 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
-function Sidebar({ isOpen, toggleSidebar }) {
+function Sidebar({ isOpen, toggleSidebar  , user}) {
+
+  // console.log("user sidebar" , user)
   return (
     <nav className={`sidebar ${isOpen ? '' : 'close'} mb-5`}>
       <header>
@@ -36,6 +38,25 @@ function Sidebar({ isOpen, toggleSidebar }) {
 
       <div className="menu-bar">
         <div className="menu">
+        <ul className="menu-links">
+          {user?.rollid === 3 && ( 
+              <>
+            <li className="nav-link" style={{ color: "#3a3b3c" }}>
+              <NavLink
+                to="/"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                <i className="bi bi-house-door icon"></i>
+                <span className="text nav-text">Dashboard</span>
+              </NavLink>
+            </li>
+            </>
+          )}
+          </ul>
+
+
+          {user?.rollid === 1 && ( 
+            <>
           <li className="project-create-btn">
             <NavLink to="/AddProject">
               <i className="bi bi-plus-lg"></i>
@@ -46,7 +67,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
           <ul className="menu-links">
             <li className="nav-link" style={{ color: "#3a3b3c" }}>
               <NavLink
-                to="/AdminHome"
+                to="/admin-dashboard"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 <i className="bi bi-house-door icon"></i>
@@ -75,16 +96,19 @@ function Sidebar({ isOpen, toggleSidebar }) {
             </li>
 
             <li className="nav-link">
-              <a href="#">
-                <i className="bi bi-list-task icon"></i>
-                <span className="text nav-text">Notifications</span>
-              </a>
+              <NavLink
+                to="/employees"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                <i className="bi bi-chat-dots icon"></i>
+                <span className="text nav-text">Employees</span>
+              </NavLink>
             </li>
 
             <li className="nav-link">
               <a href="#">
                 <i className="bi bi-people icon"></i>
-                <span className="text nav-text">Analytics</span>
+                <span className="text nav-text">Notification</span>
               </a>
             </li>
 
@@ -101,6 +125,44 @@ function Sidebar({ isOpen, toggleSidebar }) {
                 <span className="text nav-text">Wallets</span>
               </a>
             </li>
+          </ul>
+            </>
+          )}
+
+          <ul className="menu-links">
+          {user?.rollid === 2 && ( 
+              <>
+            <li className="nav-link" style={{ color: "#3a3b3c" }}>
+              <NavLink
+                to="/manager-dashboard"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                <i className="bi bi-house-door icon"></i>
+                <span className="text nav-text">Dashboard</span>
+              </NavLink>
+            </li>
+
+            <li className="nav-link">
+              <NavLink
+                to="/manager-projects"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                <i className="bi bi-chat-dots icon"></i>
+                <span className="text nav-text">Projects</span>
+              </NavLink>
+            </li>
+          
+            <li className="nav-link">
+              <NavLink
+                to="/ManageTask"
+                className={({ isActive }) => (isActive ? "active-link" : "")}
+              >
+                <i className="bi bi-chat-dots icon"></i>
+                <span className="text nav-text">Task</span>
+              </NavLink>
+            </li>
+            </>
+          )}
           </ul>
         </div>
 

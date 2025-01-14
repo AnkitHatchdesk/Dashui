@@ -26,6 +26,8 @@ export const AuthProvider = ({ children }) => {
   const[user , setUser] = useState("")
   const[errors , setErrors]= useState({})
 
+  // console.log("user in detail" , user)
+
   // console.log("loading" ,loading)
 
   const Navigate = useNavigate();
@@ -33,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   const checkAuth = async () => {
     try {
       const response = await axiosInstance.get("/account/checkAuth");
-      console.log("response user", response.data.user);
+      // console.log("response user", response.data.user);
 
       if (response.data.isAuthenticated) {
         setUser(response.data.user)
@@ -113,6 +115,7 @@ export const AuthProvider = ({ children }) => {
         if (response.status === 200 || response.status === 201) {
           console.log("Login Successful:", response.data);
           localStorage.setItem("token", response.data.token);
+          setUser(response.data)
 
           const userRole = response.data.user.roles[0];
           console.log("userRole" , userRole)
@@ -120,10 +123,10 @@ export const AuthProvider = ({ children }) => {
              
           // Navigate based on role
           if (userRole === "Admin") {
-            Navigate("/AdminHome");
+            Navigate("/admin-dashboard");
             checkAuth();
           } else if (userRole === "Manager") {
-            Navigate("/ManagerHome");
+            Navigate("/manager-dashboard");
             checkAuth();
           } else {
             Navigate("/"); // Default route for other roles

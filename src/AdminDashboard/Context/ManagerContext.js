@@ -20,23 +20,28 @@ export const ManageProvider = ({ children }) => {
   const [managerToDelete, setmanagerToDelete] = useState(null);
 
   const [managerData, setManagerData] = useState({
-    managerID: "",
+    id: "",
     name: "",
     email: "",
-    projectName :"",
-    dueDate:""
   });
 
-  const handleDeleteOpenModal = (managerID) => {
-    console.log("projID modal" , managerID)
-    setmanagerToDelete(managerID);
+  const handleDeleteOpenModal = (Id) => {
+    // console.log("projID modal" , Id)
+    setmanagerToDelete(Id);
     setShowDeleteModal(true);
   };
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    // alert("hi")
+    setShowDeleteModal(false);
+    setShow(false)
+  }
+
+
+
   const handleShow = (manager = null) => {
     setManagerData({
-      managerID: manager?.managerID || "",
+      Id: manager?.Id || "",
       name: manager?.name || "",
       email: manager?.email || "",
     });
@@ -67,7 +72,7 @@ export const ManageProvider = ({ children }) => {
      
     };
   
-    console.log("payload:", payload);
+    // console.log("payload:", payload);
   
     try {
         const response = await axiosInstance.post("/account/register-manager", payload);
@@ -79,8 +84,8 @@ export const ManageProvider = ({ children }) => {
         toast.error("Failed to save manager.");
       }
     } catch (err) {
-      console.error("Error during API call:", err);
-      console.log("API error details:", err.response?.data);
+      // console.error("Error during API call:", err);
+      // console.log("API error details:", err.response?.data);
       toast.error(err.response?.data?.message || "Something went wrong!");
     } finally {
       setLoading(false);
@@ -100,14 +105,14 @@ export const ManageProvider = ({ children }) => {
       dueDate : managerData.dueDate || "",
     };
   
-    console.log("payload:", payload);
+    // console.log("payload:", payload);
   
     try {
       let response;
   
-      if (managerData.managerID) {
+      if (managerData.Id) {
         response = await axiosInstance.put(
-          `/UpdateManager/${managerData.managerID}`,
+          `/UpdateManager/${managerData.Id}`,
           payload
         );
       } 
@@ -140,9 +145,9 @@ export const ManageProvider = ({ children }) => {
     }
   };
 
-    const handleDelete = async (managerID) => {
+    const handleDelete = async (Id) => {
       try {
-        const response = await axiosInstance.delete(`/DeleteManager?id=${managerID}`);
+        const response = await axiosInstance.delete(`/DeleteManager?id=${Id}`);
     
         if (response.status === 200) {
              await fetchManagers();
@@ -159,6 +164,8 @@ export const ManageProvider = ({ children }) => {
         
       }
     };
+
+  
   
 
   useEffect(() => {

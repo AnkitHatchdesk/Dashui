@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 function ProjectList({ project, handleOpenModal }) {
 
+  console.log("project in list" , project)
+
 
   const formatDate = (date) => {
     return date ? date.split("T")[0] : "";
@@ -19,7 +21,7 @@ function ProjectList({ project, handleOpenModal }) {
       <td>{project.departmentName}</td>
       <td className="action-buttons">
         <Link
-          to={`/Update/${project.projID}`}
+          to={`/Update/${project.id}`}
           className="btn btn-warning btn-sm"
           title="Edit"
         >
@@ -27,7 +29,7 @@ function ProjectList({ project, handleOpenModal }) {
         </Link>
 
         <button
-          onClick={() => handleOpenModal(project.projID)}
+          onClick={() => handleOpenModal(project.id)}
           className="btn btn-danger btn-sm"
           title="Delete"
         >

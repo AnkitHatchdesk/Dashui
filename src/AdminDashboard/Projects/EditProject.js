@@ -21,16 +21,16 @@ function EditProject() {
     
   } = useProject();
 
-  const { projID } = useParams();
-//   console.log("projID edit " , projID)
+  const { id } = useParams();
+  console.log("projID edit " , id)
 
   // console.log("projectdata in edit" , projectData)
 
   useEffect(() => {
-    if (projID) {
-      fetchProjectData(projID)
+    if (id) {
+      fetchProjectData(id)
     }
-  }, [projID]);
+  }, [id]);
   
 
   return (

@@ -1,38 +1,25 @@
-import React from "react";
-import ManagerList from "./ManagerList";
+import React from 'react'
+import ManagerProjectList from './ManagerProjectList'
+import styles from "./ManagerProject.module.css"
+import { useManagerDash } from '../Context/ManagerDashContext'
 
-import styles from "./Manager.module.css";
-import { useManager } from "../Context/ManagerContext";
-import Loader from "../../Loader";
-import AddManager from "./AddManager";
-import EditManager from "./EditManager";
-import DeleteProjectModal from "../Modal/DeleteProjectModal";
-import { useProject } from "../Context/ProjectContext";
+function ManagerProjects() {
+
+    const{projects} = useManagerDash();
 
 
-function Managers() {
-  const {
-    managers,
-    loading,
-    handleShow,
-    selectedManager,
-    handleDelete
-  } = useManager();
-
-  const{projectToDelete , handleCloseModal  , showModal  , handleOpenModal }  = useProject()
-
-
+    console.log("projects in manager project" , projects)
   return (
-    <>
+    <div>
       <div>
         <div className="todo-container">
-          <div className="welcome-text ps-3 fs-2">Manage Managers</div>
-          <div className="d-flex align-items-center me-4">
+          <div className="welcome-text ps-3 fs-2">Managers Projects</div>
+          {/* <div className="d-flex align-items-center me-4">
             <div className="todo-group">
               <button
                 className={`${styles.invitebutton} container d-flex justify-content-center align-items-center `}
                 style={{ width: "160px" }}
-                onClick={() => handleShow(null)} // Add Member ke liye
+                onClick={() => handleShow(null)} 
               >
                 Add Member{" "}
                 <span>
@@ -47,7 +34,7 @@ function Managers() {
               <i className="bi bi-file-earmark-pdf"></i>
             </div>
             <i className="bi bi-printer ps-3"></i>
-          </div>
+          </div> */}
         </div>
 
         <div className="container">
@@ -57,7 +44,7 @@ function Managers() {
                 <div className="manager-head">
                   <p></p>
                 </div>
-                <div className="d-flex">
+                {/* <div className="d-flex">
                   <div className="select-container">
                     <div>
                       <select id="select1" className="select-box">
@@ -84,7 +71,7 @@ function Managers() {
                       </select>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
               <div className="container-xl">
                 <div className={`table-responsive ${styles.tables}`}>
@@ -99,33 +86,23 @@ function Managers() {
                     <table className="table table-striped table-hover">
                       <thead>
                         <tr>
-                          <th>Name</th>
+          
                           <th>Project Name</th>
                           <th>Date</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {loading ? (
-                          <tr>
-                            <Loader loading={loading} />
-                          </tr>
-                        ) : managers && managers.length > 0 ? (
-                          managers.map((manager) => (
-                            <ManagerList
-                              key={manager.id}
-                              manager={manager}
-                              handleShow={() => handleShow(manager)} 
-                              handleOpenModal = {handleOpenModal}// Edit manager ke liye
+                     { projects.map((project) => (
+                            <ManagerProjectList
+                              key={project.id}
+                              project={project}
+                            //   handleShow={() => handleShow(manager)} 
+                            //   handleOpenModal = {handleOpenModal}
                             />
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan="4" className="text-center">
-                              No managers available
-                            </td>
-                          </tr>
-                        )}
+                      ))}
+                        
+     
                       </tbody>
                     </table>
                   </div>
@@ -135,17 +112,8 @@ function Managers() {
           </div>
         </div>
       </div>
-      {/* Conditional rendering based on selectedManager */}
-      {selectedManager === null && <AddManager />} {/* Add Manager modal */}
-      {selectedManager !== null && <EditManager />} {/* Edit Manager modal */}
-      <DeleteProjectModal
-        showModal={showModal}
-        handleCloseModal={handleCloseModal}
-        handleDelete={handleDelete}
-        id={projectToDelete}
-      />
-    </>
-  );
+    </div>
+  )
 }
 
-export default Managers;
+export default ManagerProjects

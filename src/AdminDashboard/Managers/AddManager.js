@@ -3,7 +3,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import { useManager } from '../Context/ManagerContext';
 
 function AddManager() {
-  const { handleClose, show, handleFileChange, handleManagerSubmit, handleChange, managerData } = useManager();
+  const { handleClose, show, handleManagerSubmit, handleChange, managerData } = useManager();
 
   return (
     <>

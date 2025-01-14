@@ -24,7 +24,7 @@ export const ProjectProvider = ({ children }) => {
   const[showModal , setShowModal] = useState(false)
   const [projectToDelete, setProjectToDelete] = useState(null);
   const [projectData, setProjectData] = useState({
-    projID: "",
+    id: "",
     title: "",
     severityLevel: "",
     startDate: "",
@@ -40,15 +40,17 @@ export const ProjectProvider = ({ children }) => {
   const [pageSize] = useState(10);
 
 
+  // console.log("projectToDelete" , projectToDelete)
+
 //using fatching data with Id
-  const fetchProjectData = async (projID) => {
+  const fetchProjectData = async (id) => {
     try {
-      const response = await axiosInstance.get(`/Project/${projID}`);
+      const response = await axiosInstance.get(`/Project/${id}`);
       console.log("Project Data:", response.data);
       setProjectData((prevData) => ({
         ...prevData,
         title: response.data.project.title,
-        projID: parseInt(projID),
+        id: parseInt(id),
         severityLevel: response.data.project.severityLevel,
         startDate: response.data.project.startDate,
         deadline: response.data.project.deadline,
@@ -132,6 +134,7 @@ export const ProjectProvider = ({ children }) => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     fetchProjectsWithSearch();
+    fetchProjectData();
   };
 
   const fetchDropdownData = async () => {
@@ -160,7 +163,7 @@ export const ProjectProvider = ({ children }) => {
         pageSize: pageSize,
       });
 
-      console.log("sercah params", searchParams.toString());
+      // console.log("sercah params", searchParams.toString());
 
       const response = await axiosInstance.get(
         `/SearchProjects?${searchParams.toString()}`
@@ -267,9 +270,9 @@ export const ProjectProvider = ({ children }) => {
     try {
       const config = { headers: { "Content-Type": "multipart/form-data" } };
 
-      if (projectData.projID) {
+      if (projectData.id) {
         const response = await axiosInstance.put(
-          `/UpdateProject/${projectData.projID}`,
+          `/UpdateProject/${projectData.id}`,
           formData,
           config
         );
@@ -290,7 +293,7 @@ export const ProjectProvider = ({ children }) => {
           config
         );
 
-        console.log("response data", response.data);
+        // console.log("response data", response.data);
         if (response.data) {
           await fetchProjects();
           resetForm();
@@ -301,7 +304,7 @@ export const ProjectProvider = ({ children }) => {
         }
       }
     } catch (err) {
-      console.error("Error:", err);
+      // console.error("Error:", err);
       setError("Failed to add/edit project.");
       toast.error("Something went wrong!");
     } finally {
@@ -321,7 +324,7 @@ export const ProjectProvider = ({ children }) => {
       technologyStack: "",
       client: "",
       imagePath: null,
-      projID: null,
+      id: null,
     });
   };
 
@@ -330,9 +333,9 @@ export const ProjectProvider = ({ children }) => {
     setCurrentPage(pageNumber);
   };
 
-  const handleOpenModal = (projID) => {
-    console.log("projID modal" , projID)
-    setProjectToDelete(projID);
+  const handleOpenModal = (id) => {
+    // console.log("Id modal" , id)
+    setProjectToDelete(id);
     setShowModal(true);
   };
 
@@ -342,14 +345,16 @@ export const ProjectProvider = ({ children }) => {
 
  
 
-  const handleDelete = async (projID) => {
+  const handleDelete = async (id) => {
     // alert("hi")
-    // console.log("projID" , projID)
+    // console.log("Id" , id)
     try {
-      const response = await axiosInstance.delete(`/DeleteProject?id=${projID}`);
+      const response = await axiosInstance.delete(`/DeleteProject?id=${id}`);
+
+      // console.log("response " , response)
   
       if (response.status === 200) {
-        console.log("Project deleted successfully");
+        // console.log("Project deleted successfully");
         await fetchProjects();
         toast.success("Project Deleted Successfully.")
         setShowModal(false)
@@ -396,11 +401,12 @@ export const ProjectProvider = ({ children }) => {
         searchQuery,
         handleSearchSubmit,
         fetchProjectData,
-        handleOpenModal,
+      
         handleCloseModal,
         handleDelete,
         showModal,
-        projectToDelete
+        projectToDelete,
+        handleOpenModal
 
         // handleEditproject
       }}

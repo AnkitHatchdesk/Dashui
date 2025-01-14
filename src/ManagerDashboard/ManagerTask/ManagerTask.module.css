@@ -160,24 +160,6 @@ line-height: 1;
 }
   
 
-
-.taskstatusbox {
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  border-radius: 8px;
-}
-
-.addtask{
-  color: #717187; /* Default color */
-  text-decoration: none; /* No underline */
-  transition: color 0.3s ease;
-}
-
-
-.addtask:hover{
-  color: #424242;
-  /* background-color: #717187; */
-}
-
   @media (max-width: 1042px) {
     .todocontainer {
       display: flex;

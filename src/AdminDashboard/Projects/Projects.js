@@ -5,6 +5,7 @@ import Loader from "../../Loader";
 import styles from "./Project.module.css";
 import { Link } from "react-router-dom";
 import DeleteModal from "../Modal/DeleteProjectModal";
+import DeleteProjectModal from "../Modal/DeleteProjectModal";
 
 
 const Projects = () => {
@@ -25,7 +26,9 @@ const Projects = () => {
     handleDelete,
     showModal,
     projectToDelete,
+  
   } = useProject();
+
   const disablePrevious = currentPage === 1;
   const disableNext = currentPage === totalPages;
 
@@ -88,7 +91,7 @@ const Projects = () => {
                         ) : projects && projects.length > 0 ? (
                           projects.map((project) => (
                             <ProjectList
-                              key={project.projID}
+                              key={project.id}
                               project={project}
                               handleOpenModal={handleOpenModal}
                             />
@@ -144,11 +147,11 @@ const Projects = () => {
           </div>
         </div>
       </div>
-      <DeleteModal
+      <DeleteProjectModal
         showModal={showModal}
         handleCloseModal={handleCloseModal}
         handleDelete={handleDelete}
-        projID={projectToDelete}
+        id={projectToDelete}
       />
     </>
   );

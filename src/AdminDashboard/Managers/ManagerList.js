@@ -1,12 +1,18 @@
 import React from "react";
 
-function ManagerList({ manager, handleShow, handleDeleteOpenModal }) {
+function ManagerList({ manager, handleShow, handleOpenModal  }) {
+
+  console.log("manager" , manager)
+
+  const projectTitles = manager.projects.length > 0 
+  ? manager.projects.map(project => project.title).join(' | ') 
+  : 'No Project Assigned';
   return (
     <>
       <tr>
         <td>{manager.fullName}</td>
         <td>
-          {manager.projects.length > 0 ? manager.projects[0].title : "No Project Assigned"}
+        {projectTitles}
         </td>
         <td>Nov, 30, 2019</td>
 
@@ -15,11 +21,11 @@ function ManagerList({ manager, handleShow, handleDeleteOpenModal }) {
             className="btn btn-warning btn-sm me-2"
             onClick={() => handleShow(manager)}
           >
-            Edit
+             <i className="bi bi-pencil"></i>
           </button>
 
           <button
-            onClick={() => handleDeleteOpenModal(manager.id)}
+            onClick={() => handleOpenModal(manager.id)}
             className="btn btn-danger btn-sm"
             title="Delete"
           >

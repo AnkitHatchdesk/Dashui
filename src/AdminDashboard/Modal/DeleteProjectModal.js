@@ -1,6 +1,7 @@
 import React from "react";
 
-function DeleteProjectModal({ showModal, projID, handleCloseModal, handleDelete }) {
+function DeleteProjectModal({ showModal, id, handleCloseModal, handleDelete }) {
+  console.log("id in modal" , id)
   if (!showModal) return null;
 
   return (
@@ -21,7 +22,7 @@ function DeleteProjectModal({ showModal, projID, handleCloseModal, handleDelete 
             <button
               type="button"
               className="btn btn-danger"
-              onClick={() => handleDelete(projID)} 
+              onClick={() => handleDelete(id)} 
             >
               Delete
             </button>
