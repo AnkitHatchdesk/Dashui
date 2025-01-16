@@ -1,21 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import FormateDate from '../../FormateDate'
 
 function ManageTaskList({ Tasks  , handleOpenModal}) {
 
     // console.log("Task in list", Tasks)
 
-    const formatDate = (date) => {
-        return date ? date.split("T")[0] : "";
-      };
+ 
     
     return (
         <tr>
             <td>{Tasks.taskTitle}</td>
             <td>{Tasks.employeeName}</td>
             <td>{Tasks.severityLevelName}</td>
-            <td>{formatDate(Tasks.startDate)}</td>
-            <td>{formatDate(Tasks.startDate)}</td>
+            <td>{FormateDate(Tasks.startDate)}</td>
+            <td>{FormateDate(Tasks.startDate)}</td>
             <td>{Tasks.progress}</td>
 
             <td className="action-buttons d-flex">

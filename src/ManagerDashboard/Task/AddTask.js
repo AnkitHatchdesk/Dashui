@@ -4,13 +4,13 @@ import styles from "./AddTask.module.css";
 import { useManagerDash } from "../Context/ManagerDashContext";
 
 function AddTask() {
-    const { handleFileChange, status , severityOptions, handleChange, TaskData, Employees , handleTaskSubmit , setTaskIdInContext } = useManagerDash();
+    const { handleFileChange, status, severityOptions, handleChange, TaskData, Employees, handleTaskSubmit, setTaskIdInContext, error } = useManagerDash();
 
     console.log("Employees", Employees)
 
-     const{id} = useParams();
+    const { id } = useParams();
 
-     useEffect(() => {
+    useEffect(() => {
         setTaskIdInContext(id);
     }, [id, setTaskIdInContext]);
 
@@ -18,7 +18,7 @@ function AddTask() {
         <div>
             <div className="form-accrdian">
                 <Link
-                    to="/manager-dashboard"
+                    to="/Manager/Dashboard"
                     className="text-decoration-none"
                     style={{ color: "#787486" }}
                 >
@@ -38,7 +38,7 @@ function AddTask() {
                                 <h4 className="create-new-task-head mb-0">Create New Task</h4>
                             </div>
 
-                            <form onSubmit={handleTaskSubmit}   encType="multipart/form-data">
+                            <form onSubmit={handleTaskSubmit} encType="multipart/form-data">
                                 <div className="row g-4">
                                     {/* Task Title */}
                                     <div className="col-lg-6">
@@ -51,25 +51,10 @@ function AddTask() {
                                             value={TaskData.taskTitle}
                                             onChange={handleChange}
                                         />
+                                        {error.taskTitle && <span className="error-message">{error.taskTitle}</span>}
                                     </div>
 
-                                    {/* Severity Level */}
-                                    <div className="col-lg-6">
-                                        <label className="form-label">Severity Level</label>
-                                        <select
-                                            className="form-select"
-                                            name="severityLevel"
-                                            value={TaskData.severityLevel}
-                                            onChange={handleChange}
-                                        >
-                                            <option value="">---Select---</option>
-                                            {severityOptions.map((option) => (
-                                                <option key={option.id} value={option.id}>
-                                                    {option.level}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
+
 
                                     {/* Start Date */}
                                     <div className="col-md-6">
@@ -82,6 +67,7 @@ function AddTask() {
                                             value={TaskData.startDate}
                                             onChange={handleChange}
                                         />
+                                        {error.startDate && <span className="error-message">{error.startDate}</span>}
                                     </div>
 
                                     {/* End Date */}
@@ -95,6 +81,7 @@ function AddTask() {
                                             value={TaskData.endDate}
                                             onChange={handleChange}
                                         />
+                                        {error.endDate && <span className="error-message">{error.endDate}</span>}
                                     </div>
 
                                     {/* Task Description */}
@@ -108,96 +95,132 @@ function AddTask() {
                                             value={TaskData.taskDescr}
                                             onChange={handleChange}
                                         ></textarea>
+                                        {error.taskDescr && <span className="error-message">{error.taskDescr}</span>}
                                     </div>
                                     <div className="row d-flex  align-items-start mt-3 justify-content-center">
                                         {/* Upload Image */}
                                         <div className="col-md-7">
-                                            <label className="form-label">Status</label>
-                                            <select
-                                                className="form-select"
-                                                name="status"
-                                                value={TaskData.status}
-                                                onChange={handleChange}
-                                            >
-                                                <option value="">---Select---</option>
-                                                {status.map((option) => (
-                                                    <option key={option.statusId} value={option.statusId}>
-                                                        {option.statusName}
-                                                    </option>
-                                                ))}
-                                            </select>
-
-                                            <label className="form-label">Assign To</label>
-                                            <select
-                                                className="form-select"
-                                                name="AssignManager"
-                                                value={TaskData.AssignManager}
-                                                onChange={handleChange}
-                                            >
-                                                <option value="">---Select---</option>
-                                                {Employees.map((option) => (
-                                                    <option key={option.id} value={option.id}>
-                                                        {`${option.firstName}  ${option.lastName}`}
-                                                    </option>
-                                                ))}
-                                            </select>
-
-                                            <div className="mt-5 d-flex flex-column">
-                                                <label for="progress">Progress</label>
-                                                <input
-                                                    type="number"
-                                                    className="form-control"
-                                                    name="progress"
-                                                    value={TaskData.progress}
-                                                    onChange={handleChange}
-                                                />
+                                            <div className="row">
+                                                <div className="col-lg-12">
+                                                    <label className="form-label">Status</label>
+                                                    <select
+                                                        className="form-select"
+                                                        name="status"
+                                                        value={TaskData.status}
+                                                        onChange={handleChange}
+                                                    >
+                                                        <option value="">---Select---</option>
+                                                        {status.map((option) => (
+                                                            <option key={option.statusId} value={option.statusId}>
+                                                                {option.statusName}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="col-md-5">
-                                            <label className="form-label">Upload Document</label>
-                                            <div className={`${styles.uploadimagebox}`}>
-                                                <i className="bi bi-image"></i>
-                                                <p className="text-muted mb-0 text-center">
-                                                    Drag and drop files here
-                                                </p>
-                                                <input
-                                                    type="file"
-                                                    className="btn btn-light mt-2 border"
-                                                    name="imagePath"
-                                                    accept="*/"
-                                                    multiple
-                                                    onChange={handleFileChange}
-                                                    style={{ width: "70%" }}
-                                                />
+                                            {/* Severity Level */}
+                                            <div className="row">
+                                                <div className="col-lg-12">
+                                                    <label className="form-label ">Severity Level</label>
+                                                    <select
+                                                        className="form-select"
+                                                        name="severityLevel"
+                                                        value={TaskData.severityLevel}
+                                                        onChange={handleChange}
+                                                    >
+                                                        <option value="">---Select---</option>
+                                                        {severityOptions.map((option) => (
+                                                            <option key={option.id} value={option.id}>
+                                                                {option.level}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                    {error.severityLevel && <span className="error-message">{error.severityLevel}</span>}
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        {/* Form Buttons */}
-                                        <div
-                                            className={`${styles.FormlastButtonbox} col-12 d-flex justify-content-end gap-2`}
-                                        >
-                                            <button
-                                                type="button"
-                                                className={`btn px-4 ${styles.lastButtoncancel}`}
-                                            >
-                                                Cancel
-                                            </button>
-                                            <button
-                                                type="submit"
-                                                className={`btn px-4 me-4 ${styles.lastButtoncreate}`}
-                                            >
-                                                Create Task
-                                            </button>
+                                            <div className="row">
+                                                <div className="col-lg-12">
 
+                                                    <label className="form-label">Assign To</label>
+                                                    <select
+                                                        className="form-select"
+                                                        name="AssignManager"
+                                                        value={TaskData.AssignManager}
+                                                        onChange={handleChange}
+                                                    >
+                                                        <option value="">---Select---</option>
+                                                        {Employees.map((option) => (
+                                                            <option key={option.id} value={option.id}>
+                                                                {`${option.firstName}  ${option.lastName}`}
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                    {error.AssignManager && <span className="error-message">{error.AssignManager}</span>}
+                                                </div>
+                                            </div>
+
+                                            <div className="row">
+                                                <div className="col-lg-12">
+                                                    <div className="d-flex flex-column">
+                                                        <label for="progress">Progress</label>
+                                                        <input
+                                                            type="number"
+                                                            className="form-control"
+                                                            name="progress"
+                                                            value={TaskData.progress}
+                                                            onChange={handleChange}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div className="col-md-5">
+                                                <label className="form-label">Upload Document</label>
+                                                <div className={`${styles.uploadimagebox}`}>
+                                                    <i className="bi bi-image"></i>
+                                                    <p className="text-muted mb-0 text-center">
+                                                        Drag and drop files here
+                                                    </p>
+                                                    <input
+                                                        type="file"
+                                                        className="btn btn-light mt-2 border"
+                                                        name="imagePath"
+                                                        accept="*/"
+                                                        multiple
+                                                        onChange={handleFileChange}
+                                                        style={{ width: "70%" }}
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            {/* Form Buttons */}
+                                            <div
+                                                className={`${styles.FormlastButtonbox} col-12 d-flex justify-content-end gap-2`}
+                                            >
+                                                <button
+                                                    type="button"
+                                                    className={`btn px-4 ${styles.lastButtoncancel}`}
+                                                >
+                                                    Cancel
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    className={`btn px-4 me-4 ${styles.lastButtoncreate}`}
+                                                >
+                                                    Create Task
+                                                </button>
+
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    
     );
 }
 

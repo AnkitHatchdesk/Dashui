@@ -23,14 +23,13 @@ export const ManagerDashProvider = ({ children }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [totalEntries, setTotalEntries] = useState(0);
-  const [Tasks, setTasks] = useState([])
+  const [Tasks, setTasks] = useState([]);
+    const [error, setError] = useState({});
   const [pageSize] = useState(10);
   const [showModal, setShowModal] = useState(false)
   const [projectToDelete, setProjectToDelete] = useState(null);
 
-  console.log("projectId" , projectId)
 
-  
   
   const [TaskData, setTaskData] = useState({
     id: "",
@@ -44,26 +43,18 @@ export const ManagerDashProvider = ({ children }) => {
     progress: "",
     imagePath: null,
   });
-  
-  console.log("TaskData id" , TaskData)
 
-  console.log("TaskId" , taskId)
 
   const setTaskIdInContext = (id) => {
     setTaskId(id);
   };
 
-  console.log("projects in context with manager dashboard", projects)
-
-  console.log("TaskData in context", TaskData)
-
-
+  
   const handleOpenModal = (id) => {
-    alert("hi")
-    // console.log("Id modal" , id)
     setProjectToDelete(id);
     setShowModal(true);
   };
+
 
   const handleCloseModal = () => {
     setShowModal(false)
@@ -71,15 +62,9 @@ export const ManagerDashProvider = ({ children }) => {
 
 
   const handleDelete = async (id) => {
-    // alert("hi")
-    // console.log("Id" , id)
     try {
       const response = await axiosInstance.delete(`/Task/${id}`);
-
-      // console.log("response " , response)
-
       if (response.status === 200) {
-        // console.log("Project deleted successfully");
         await fetchTasks(projectId);
         toast.success("Task Deleted Successfully.")
         setShowModal(false)
@@ -97,7 +82,7 @@ export const ManagerDashProvider = ({ children }) => {
 
 
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files); // Convert FileList to Array
+    const files = Array.from(e.target.files); 
     setTaskData((prevState) => ({
       ...prevState,
       imagePath: files,
@@ -140,7 +125,7 @@ export const ManagerDashProvider = ({ children }) => {
       setEmployees(employees.data)
       setLoading(false);
     } catch (err) {
-      // setError("Failed to fetch dropdown data.");
+      setError("Failed to fetch dropdown data.");
       setLoading(false);
     }
   };
@@ -155,7 +140,14 @@ export const ManagerDashProvider = ({ children }) => {
 
   const handleTaskSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      console.error("Validation failed.");
+      return;
+    }
     setLoading(true);
+
+
 
     const startDate = TaskData.startDate ? new Date(TaskData.startDate) : null;
     const endDate = TaskData.endDate ? new Date(TaskData.endDate) : null;
@@ -178,7 +170,7 @@ export const ManagerDashProvider = ({ children }) => {
     formData.append("assignedTo", TaskData.AssignManager);
     formData.append("status", TaskData.status);
     formData.append("progress", TaskData.progress);
-    // formData.append("projID", taskId);
+  
 
 
     // Append all selected files
@@ -207,17 +199,18 @@ export const ManagerDashProvider = ({ children }) => {
         console.log("response edit", response.data);
         if (response.data) {
           await fetchTasks(projectId);
-          // resetForm();
-          navigate("/ManageTask");
+          resetForm();
+          navigate(`/ManageTask/${taskId}`);
           toast.success("Task updated successfully!");
         } else {
-          // setError("Project update failed. No response data.");
+          setError("Task update failed. No response data.");
           toast.error("Project update failed.");
         }
       } else {
         const response = await axiosInstance.post(`/AddTask/${taskId}`, formData, config);
         if (response.data) {
           navigate("/ManageTask");
+          resetForm();
           await fetchTasks();
           toast.success("Project added successfully!");
         } else {
@@ -233,6 +226,50 @@ export const ManagerDashProvider = ({ children }) => {
     }
   };
 
+  const validateForm = () => {
+    const validationErrors = {};
+  
+    if (!TaskData.taskTitle.trim()) {
+      validationErrors.taskTitle = "TaskTitle is required.";
+    }
+  
+    // Severity Level ko string mein convert karke trim 
+    if (!String(TaskData.severityLevel).trim()) {
+      validationErrors.severityLevel = "Severity Level is required.";
+    }
+  
+    const startDate = TaskData.startDate
+      ? new Date(TaskData.startDate)
+      : null;
+    const endDate = TaskData.endDate
+      ? new Date(TaskData.endDate)
+      : null;
+  
+    if (!startDate || isNaN(startDate.getTime())) {
+      validationErrors.startDate = "Valid Start Date is required.";
+    }
+  
+    if (!endDate || isNaN(endDate.getTime())) {
+      validationErrors.endDate = "Valid Deadline is required.";
+    } else if (startDate && endDate && endDate < startDate) {
+      validationErrors.endDate = "Deadline cannot be before Start Date.";
+    }
+  
+
+    if (!TaskData.taskDescr.trim()) {
+      validationErrors.taskDescr = "Task description is required.";
+    }
+  
+    if (!String(TaskData.AssignManager).trim()) {
+      validationErrors.AssignManager = "Manager is required.";
+    }
+
+  
+    setError(validationErrors);
+    return Object.keys(validationErrors).length === 0;
+  };
+  
+
 
 
 
@@ -240,16 +277,17 @@ export const ManagerDashProvider = ({ children }) => {
     const { name, value } = e.target;
     setTaskData((prevData) => ({ ...prevData, [name]: value }));
 
-    // setError((prevErrors) => {
-    //   const updatedErrors = { ...prevErrors };
-    //   if (updatedErrors[name]) {
-    //     delete updatedErrors[name];
-    //   }
-    //   return updatedErrors;
-    // });
+    setError((prevErrors) => {
+      const updatedErrors = { ...prevErrors };
+      if (updatedErrors[name]) {
+        delete updatedErrors[name];
+      }
+      return updatedErrors;
+    });
   };
 
   const fetchProjectById = async () => {
+    setLoading(true)
     try {
       const response = await axiosInstance.get(
         `/GetAllProject?pageNumber=${currentPage}&pageSize=${pageSize}`
@@ -274,6 +312,7 @@ export const ManagerDashProvider = ({ children }) => {
         `/GetAllTask/${projectId}?pageNumber=${currentPage}&pageSize=${pageSize}`
       );
 
+  console.log("response task" , response.data)
       console.log("response tasks", response.data)
       setTasks(response.data.totaltasks);
       setTotalPages(response.data.totalPages);
@@ -331,12 +370,6 @@ export const ManagerDashProvider = ({ children }) => {
   };
 
 
-  useEffect(() => {
-    fetchTasks(projectId);
-
-  }, [projectId]);
-
-
 
   useEffect(() => {
     if (managerId) {
@@ -345,6 +378,20 @@ export const ManagerDashProvider = ({ children }) => {
   }, [managerId]);
 
 
+  const resetForm = () => {
+    setTaskData({
+      id: "",
+      taskTitle: "",
+      severityLevel: "",
+      status: "",
+      startDate: "",
+      endDate: "",
+      taskDescr: "",
+      AssignManager: "",
+      progress: "",
+      imagePath: null,
+    });
+  };
 
   const getStartIndex = () => (currentPage - 1) * pageSize + 1;
   const getEndIndex = () => Math.min(currentPage * pageSize, totalEntries);
@@ -372,7 +419,10 @@ export const ManagerDashProvider = ({ children }) => {
         handleOpenModal,
         showModal,
         projectToDelete,
-        setTaskIdInContext
+        setTaskIdInContext,
+        fetchTasks,
+        error
+
 
       }}
     >

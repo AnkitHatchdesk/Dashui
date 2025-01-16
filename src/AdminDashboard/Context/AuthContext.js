@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api";
 import Loader from "../../Loader";
+import { jwtDecode } from 'jwt-decode';
+
 
 const AuthContext = createContext();
 
@@ -26,34 +28,61 @@ export const AuthProvider = ({ children }) => {
   const[user , setUser] = useState("")
   const[errors , setErrors]= useState({})
 
-  // console.log("user in detail" , user)
+  console.log("user in detail" , user)
 
   // console.log("loading" ,loading)
 
   const Navigate = useNavigate();
 
-  const checkAuth = async () => {
-    try {
-      const response = await axiosInstance.get("/account/checkAuth");
-      // console.log("response user", response.data.user);
+  // const checkAuth = async () => {
+  //   try {
+  //     const response = await axiosInstance.get("/account/checkAuth");
+  //     // console.log("response user", response.data.user);
 
-      if (response.data.isAuthenticated) {
-        setUser(response.data.user)
-      } else {
-        // setIsLoggedIn(false);
-      }
-    } catch (error) {
-      console.error("Error checking auth:", error.response?.data || error.message);
-      // setIsLoggedIn(false);
-    }
-  };
+  //     if (response.data.isAuthenticated) {
+  //       setUser(response.data.user)
+  //     } else {
+  //       // setIsLoggedIn(false);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error checking auth:", error.response?.data || error.message);
+  //     // setIsLoggedIn(false);
+  //   }
+  // };
 
 
 
+
+  // useEffect(() => {
+  //   checkAuth();
+  // }, []);
 
   useEffect(() => {
-    checkAuth();
-  }, []);
+    const token = localStorage.getItem("token");
+  
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+  
+        const currentTime = Date.now() / 1000; // Current time in seconds
+        if (decodedToken.exp < currentTime) {
+          console.log("Token expired");
+          localStorage.removeItem("token");
+          setUser(null); // Expired token ke case me user null kar do
+        } else {
+          setUser(decodedToken);
+          localStorage.setItem("user", JSON.stringify(decodedToken)); // Decode token se user ko set karo
+        }
+      } catch (error) {
+        console.error("Invalid token", error);
+        setUser(null); 
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");// Invalid token ke case me bhi user null kar do
+      }
+    } else {
+      setUser(null); // Agar token hi nahi hai to user null hoga
+    }
+  }, [Navigate]);
 
 
 
@@ -111,27 +140,27 @@ export const AuthProvider = ({ children }) => {
       };
       try {
         const response = await axiosInstance.post("/account/login", payload);
-        console.log("response data" , response.data)
+        console.log("response data user" , response.data)
         if (response.status === 200 || response.status === 201) {
           console.log("Login Successful:", response.data);
           localStorage.setItem("token", response.data.token);
           setUser(response.data)
 
-          const userRole = response.data.user.roles[0];
+          const userRole = response.data.user.name;
           console.log("userRole" , userRole)
-          
-             
+            
           // Navigate based on role
-          if (userRole === "Admin") {
-            Navigate("/admin-dashboard");
-            checkAuth();
-          } else if (userRole === "Manager") {
-            Navigate("/manager-dashboard");
-            checkAuth();
+          if (userRole.toLowerCase() === "admin") {
+            Navigate("/Admin/Dashboard");
+          } else if (userRole.toLowerCase() === "manager") {
+            Navigate("/Manager/Dashboard");
+          } else if (userRole.toLowerCase() === "employee") {
+            Navigate("/"); // Redirect to home page for employee role
           } else {
             Navigate("/"); // Default route for other roles
           }
-
+          
+          
           // Navigate("/");
         
         }
@@ -152,6 +181,7 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogOut =  ()=>{
     localStorage.removeItem("token");
+    localStorage.removeItem("user")
     Navigate("/login")
   };
 

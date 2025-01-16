@@ -1,13 +1,12 @@
 import React from 'react'
+import FormateDate from '../../FormateDate';
 
 function ManagerProjectList({ project }) {
 
   console.log("projects in list", project)
 
 
-  const formatDate = (date) => {
-    return date ? date.split("T")[0] : "";
-  };
+
 
   return (
     <>
@@ -16,7 +15,7 @@ function ManagerProjectList({ project }) {
           {project.title}
         </td>
         <td>
-          {formatDate(project.createdOn)}
+          {FormateDate(project.createdOn)}
         </td>
 
         <td className="action-buttons d-flex">

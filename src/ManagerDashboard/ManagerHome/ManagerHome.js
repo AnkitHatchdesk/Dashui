@@ -58,6 +58,24 @@ function ManagerHome() {
             <div class={`${styles.todobox} col-md-6 col-lg-7 mb-3`}>
               <div class={`${styles.innerbox}`}>
                 <div class="div-1">
+                <div class="div-2 d-flex justify-content-between">
+                    <div class="d-flex position-relative">
+                      <div>
+                        <i
+                          class="bi bi-calendar fs-2"
+                          style={{color: "#a1a3a"}}
+                        ></i>
+                      </div>
+                      <div><i class="bi bi-clock"></i></div>
+                    </div>
+                  
+                  </div>
+                  <div class="d-flex">
+                    <div>20 june</div>
+                    <div class="d-flex">
+                      <i class="bi bi-dot"></i><span>Today</span>
+                    </div>
+                  </div>
                  
                   {/* start task container */}
                   {projects && projects.length > 0 ? (

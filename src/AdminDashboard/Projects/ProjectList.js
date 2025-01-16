@@ -1,22 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import FormateDate from "../../FormateDate";
 
 function ProjectList({ project, handleOpenModal }) {
-
-  console.log("project in list" , project)
-
-
-  const formatDate = (date) => {
-    return date ? date.split("T")[0] : "";
-  };
-
-
 
   return (
     <tr className="text-start">
       <td>{project.title}</td>
-      <td>{formatDate(project.startDate)}</td>
-      <td>{formatDate(project.deadline)}</td>
+      <td>{FormateDate(project.startDate)}</td>
+      <td>{FormateDate(project.deadline)}</td>
       <td>{project.managerName}</td>
       <td>{project.departmentName}</td>
       <td className="action-buttons">

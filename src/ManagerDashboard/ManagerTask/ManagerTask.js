@@ -1,42 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styles from "./ManagerTask.module.css";
 import { Link } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
 import { useProject } from '../../AdminDashboard/Context/ProjectContext';
 
 function ManagerTask({ projects }) {
     // console.log("manager in managerTask", projects);
-  
+
     if (!projects) {
         return <p>Loading...</p>;
     }
 
     return (
         <>
-            <div class="div-2 d-flex justify-content-between mt-5">
-                <div class="d-flex position-relative">
-                    <div>
-                        <i
-                            class="bi bi-calendar fs-2"
-                            style={{ color: "#a1a3ab" }}
-                        ></i>
-                    </div>
-                    <div>
-                        <i class="bi bi-clock"></i>
-                    </div>
-                </div>
-                <Link to={`/AddTask/${projects.id}`} className={`text-decoration-none ${styles.addtask}`} >
-                    <i class="bi bi-plus-lg"></i>
-                    Add Task
-                </Link>
-            </div>
-            <div class="d-flex">
-                <div>20 june</div>
-                <div class="d-flex">
-                    <i class="bi bi-dot"></i>
-                    <span>Today</span>
-                </div>
-
-            </div>
             <div className={`${styles.Todoinner} mt-5}`}>
                 <div className={`${styles.Todoinnerbox} d-flex justify-content-between px-3}`}>
                     <div className="circle-heading d-flex">
@@ -44,8 +20,33 @@ function ManagerTask({ projects }) {
                             {projects.title}
                         </h3>
                     </div>
-                    <div className="three-dot">
-                        <i className="bi bi-three-dots" style={{ color: "#a1a3ab", fontSize: "38px", marginRight: "25px" }}></i>
+                    <div className="three-dot pe-4" style={{ color: "#a1a3ab", fontSize: "38px", marginRight: "25px" }}>
+                        {/* <i className="bi bi-three-dots" style={{ color: "#a1a3ab", fontSize: "38px", marginRight: "25px" }}></i> */}
+
+                        <Dropdown align="end">
+                            <Dropdown.Toggle
+                                variant="link"
+                                id="dropdown-basic"
+                                className="btn text-black p-0"
+                                bsPrefix="custom-dropdown-toggle"
+                            >
+                                <i
+                                    className="bi bi-three-dots"
+                                    style={{ fontSize: "38px", cursor: "pointer" }}
+                                ></i>
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+
+                                <Dropdown.Item as={Link} to={`/AddTask/${projects.id}`}>
+                                    <i className="fa-solid fa-right-from-bracket me-2"></i> Add Task
+                                </Dropdown.Item>
+
+                                <Dropdown.Item as={Link} to={`/ManageTask/${projects.id}`}>
+                                    <i className="fa-solid fa-gear me-2"></i> View Task
+                                </Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
                 </div>
                 <div className="d-flex align-items-center justify-content-between px-4">

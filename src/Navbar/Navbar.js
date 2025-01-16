@@ -4,7 +4,7 @@ import { useAuth } from "../AdminDashboard/Context/AuthContext";
 import { Dropdown } from "react-bootstrap"; // Import Dropdown from react-bootstrap
 
 function Navbar() {
-  const { isLoggedIn, handleLogOut, user } = useAuth();
+  const {  handleLogOut, user } = useAuth();
   const token = localStorage.getItem("token");
 
   return (
@@ -37,7 +37,7 @@ function Navbar() {
           </div>
           <div className="avatar pt-2">
             <div className="avatar-para">
-              <p className="ms-2">{`${user.firstName} ${user.lastName}`}</p>
+              <p className="ms-2">{`${user.FirstName} ${user.LastName}`}</p>
               <span className="avatar-address">up india</span>
             </div>
           </div>

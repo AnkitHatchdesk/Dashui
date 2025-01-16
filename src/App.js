@@ -32,9 +32,13 @@ import ManagerProjects from "./ManagerDashboard/ManagerProjects/ManagerProjects"
 import Task from "./AdminDashboard/Task/Task";
 import ManageTask from "./ManagerDashboard/Task/ManageTask";
 import EditTask from "./ManagerDashboard/Task/EditTask";
+import PrivateRoute from "./PrivateRoute";
+import UnAuthorized from "./UnAuthorized";
 
 
 function Layout({ children }) {
+
+  console.log("children app", children)
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { user } = useAuth();
@@ -65,115 +69,192 @@ function Layout({ children }) {
   );
 }
 
+// function App() {
+//   return (
+//     <Router>
+//       <AuthProvider>
+//         <ProjectProvider>
+//           <ManageProvider>
+//             <ManagerDashProvider >
+//               <EmployeeProvider>
+//                 <Routes>
+//                   <Route
+//                     path="/"
+//                     element={
+//                       <Layout>
+//                         <EmployeeHome />
+//                       </Layout>
+//                     }
+//                   />
+//                   <Route
+//                     path="/admin-dashboard"
+//                     element={
+//                       <Layout>
+//                         <AdminHome />
+//                       </Layout>
+//                     }
+//                   />
+//                   <Route
+//                     path="/manager-dashboard"
+//                     element={
+//                       <Layout>
+//                         <ManagerHome />
+//                       </Layout>
+//                     }
+//                   />
+
+//                   <Route
+//                     path="/manager-projects"
+//                     element={
+//                       <Layout>
+//                         <ManagerProjects />
+//                       </Layout>
+//                     }
+//                   />
+
+//                   <Route
+//                     path="/ManageTask/:id"
+//                     element={
+//                       <Layout>
+//                         <ManageTask />
+//                       </Layout>
+//                     }
+//                   />
+
+//                   <Route
+//                     path="/AddTask/:id"
+//                     element={
+//                       <Layout>
+//                         <AddTask />
+//                       </Layout>
+//                     }
+//                   />
+
+//                   <Route
+//                     path="/UpdateTask/:id"
+//                     element={
+//                       <Layout>
+//                         <EditTask />
+//                       </Layout>
+//                     }
+//                   />
+//                   <Route
+//                     path="/AddProject"
+//                     element={
+//                       <Layout>
+//                         <AddProject />
+//                       </Layout>
+//                     }
+//                   />
+//                   <Route
+//                     path="/Update/:id"
+//                     element={
+//                       <Layout>
+//                         <EditProject />
+//                       </Layout>
+//                     }
+//                   />
+//                   <Route
+//                     path="/managers"
+//                     element={
+//                       <Layout>
+//                         <Managers />
+//                       </Layout>
+//                     }
+//                   />
+
+//                   <Route
+//                     path="/employees"
+//                     element={
+//                       <Layout>
+//                         <Employee />
+//                       </Layout>
+//                     }
+//                   />
+
+//                   <Route
+//                     path="/AddEmployee"
+//                     element={
+//                       <Layout>
+//                         <AddEmployee />
+//                       </Layout>
+//                     }
+//                   />
+
+
+//                   <Route
+//                     path="/projects"
+//                     element={
+//                       <Layout>
+//                         <Projects />
+//                       </Layout>
+//                     }
+//                   />
+//                   <Route
+//                     path="/profile"
+//                     element={
+//                       <Layout>
+//                         <Profile />
+//                       </Layout>
+//                     }
+//                   />
+//                   <Route path="/login" element={<Login />} />
+//                   <Route path="/register" element={<Register />} />
+//                 </Routes>
+//               </EmployeeProvider>
+//             </ManagerDashProvider>
+//           </ManageProvider>
+//         </ProjectProvider>
+//       </AuthProvider>
+//       <ToastContainer />
+//     </Router>
+//   );
+// }
+
 function App() {
   return (
     <Router>
       <AuthProvider>
         <ProjectProvider>
           <ManageProvider>
-            <ManagerDashProvider >
+            <ManagerDashProvider>
               <EmployeeProvider>
                 <Routes>
+                  {/* Public Routes */}
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/UnAuthorized" element={<UnAuthorized />} />
+
+                  {/* Private Routes */}
                   <Route
                     path="/"
                     element={
-                      <Layout>
-                        <EmployeeHome />
-                      </Layout>
+                      <PrivateRoute allowedRoles={["employee", "manager", "admin"]}>
+                        <Layout>
+                          <EmployeeHome />
+                        </Layout>
+                      </PrivateRoute>
                     }
                   />
                   <Route
-                    path="/admin-dashboard"
+                    path="/Admin/Dashboard"
                     element={
-                      <Layout>
-                        <AdminHome />
-                      </Layout>
-                    }
-                  />
-                  <Route
-                    path="/manager-dashboard"
-                    element={
-                      <Layout>
-                        <ManagerHome />
-                      </Layout>
+                      <PrivateRoute allowedRoles={["admin"]}>
+                        <Layout>
+                          <AdminHome />
+                        </Layout>
+                      </PrivateRoute>
                     }
                   />
 
-                  <Route
-                    path="/manager-projects"
-                    element={
-                      <Layout>
-                        <ManagerProjects />
-                      </Layout>
-                    }
-                  />
-
-                  <Route
-                    path="/ManageTask"
-                    element={
-                      <Layout>
-                        <ManageTask />
-                      </Layout>
-                    }
-                  />
-
-                  <Route
-                    path="/AddTask/:id"
-                    element={
-                      <Layout>
-                        <AddTask />
-                      </Layout>
-                    }
-                  />
-
-                  <Route
-                    path="/UpdateTask/:id"
-                    element={
-                      <Layout>
-                        <EditTask />
-                      </Layout>
-                    }
-                  />
-                  <Route
-                    path="/AddProject"
-                    element={
-                      <Layout>
-                        <AddProject />
-                      </Layout>
-                    }
-                  />
-                  <Route
-                    path="/Update/:id"
-                    element={
-                      <Layout>
-                        <EditProject />
-                      </Layout>
-                    }
-                  />
                   <Route
                     path="/managers"
                     element={
-                      <Layout>
-                        <Managers />
-                      </Layout>
-                    }
-                  />
-
-                  <Route
-                    path="/employees"
-                    element={
-                      <Layout>
-                        <Employee />
-                      </Layout>
-                    }
-                  />
-
-                  <Route
-                    path="/AddEmployee"
-                    element={
-                      <Layout>
-                        <AddEmployee />
-                      </Layout>
+                      <PrivateRoute allowedRoles={["admin"]}>
+                        <Layout>
+                          <Managers />
+                        </Layout>
+                      </PrivateRoute>
                     }
                   />
 
@@ -181,21 +262,120 @@ function App() {
                   <Route
                     path="/projects"
                     element={
+                      <PrivateRoute allowedRoles={["admin"]}>
+                        <Layout>
+                          <Projects />
+                        </Layout>
+                      </PrivateRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/employees"
+                    element={
+                      <PrivateRoute allowedRoles={["admin"]}>
+                        <Layout>
+                          <Employee />
+                        </Layout>
+                      </PrivateRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/AddEmployee"
+                    element={
+                      <PrivateRoute allowedRoles={["admin"]}>
+                        <Layout>
+                          <AddEmployee />
+                        </Layout>
+                      </PrivateRoute>
+                    }
+                  />
+
+
+                  <Route
+                    path="/Manager/Dashboard"
+                    element={
+                      <PrivateRoute allowedRoles={["manager"]}>
+                        <Layout>
+                          <ManagerHome />
+                        </Layout>
+                      </PrivateRoute>
+                    }
+                  />
+
+
+                  <Route
+                    path="/manager-projects"
+                    element={
+                      <PrivateRoute allowedRoles={["manager"]}>
+                        <Layout>
+                          <ManagerProjects />
+                        </Layout>
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/ManageTask/:id"
+                    element={
+                      <PrivateRoute allowedRoles={["manager"]}>
+                        <Layout>
+                          <ManageTask />
+                        </Layout>
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/AddTask/:id"
+                    element={
+                      <PrivateRoute allowedRoles={["manager"]}>
+                        <Layout>
+                          <AddTask />
+                        </Layout>
+                      </PrivateRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/UpdateTask/:id"
+                    element={
+                      <PrivateRoute allowedRoles={["manager"]}>
                       <Layout>
-                        <Projects />
+                        <EditTask />
                       </Layout>
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/AddProject"
+                    element={
+                      <PrivateRoute allowedRoles={["admin"]}>
+                        <Layout>
+                          <AddProject />
+                        </Layout>
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/Update/:id"
+                    element={
+                      <PrivateRoute allowedRoles={["admin"]}>
+                        <Layout>
+                          <EditProject />
+                        </Layout>
+                      </PrivateRoute>
                     }
                   />
                   <Route
                     path="/profile"
                     element={
-                      <Layout>
-                        <Profile />
-                      </Layout>
+                      <PrivateRoute allowedRoles={["employee", "manager", "admin"]}>
+                        <Layout>
+                          <Profile />
+                        </Layout>
+                      </PrivateRoute>
                     }
                   />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
                 </Routes>
               </EmployeeProvider>
             </ManagerDashProvider>
@@ -208,3 +388,9 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+

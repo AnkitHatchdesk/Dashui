@@ -2,6 +2,7 @@
     max-height: 460px !important;
     overflow-y: auto;
     padding: 0px 15px;
+    margin-top: 60px;
 }
 
 
@@ -31,4 +32,12 @@
 
   .offcanvas {
     height: 100vh; /* Make offcanvas fullscreen */
+  }
+
+  
+
+  .formaccrdian {
+    position: absolute;
+    left: 40px;
+    display: flex;
   }

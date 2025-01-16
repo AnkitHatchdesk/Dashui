@@ -1,12 +1,15 @@
 import React from "react";
+import FormateDate from "../../FormateDate";
 
 function ManagerList({ manager, handleShow, handleOpenModal  }) {
 
-  console.log("manager" , manager)
+  
 
   const projectTitles = manager.projects.length > 0 
   ? manager.projects.map(project => project.title).join(' | ') 
   : 'No Project Assigned';
+
+
   return (
     <>
       <tr>
@@ -14,7 +17,7 @@ function ManagerList({ manager, handleShow, handleOpenModal  }) {
         <td>
         {projectTitles}
         </td>
-        <td>Nov, 30, 2019</td>
+        <td>{FormateDate(manager.dateOfJoining)}</td>
 
         <td className="action-buttons d-flex">
           <button

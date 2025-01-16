@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 
 function EditTask() {
     
- const { handleFileChange, severityOptions, handleChange, TaskData, Employees , handleTaskSubmit  , status , fetchTaskById} = useManagerDash();
+ const { handleFileChange, severityOptions, handleChange, TaskData, Employees , handleTaskSubmit  , status , fetchTaskById , error} = useManagerDash();
 
 console.log("taskdata" , TaskData)
 
@@ -35,7 +35,7 @@ console.log("Employees" , Employees)
                 </Link>
                 <i className="bi bi-chevron-right mx-2"></i>
                 <span className="text-decoration-none" style={{ color: "#787486" }}>
-                    Add Task
+                    Update Task
                 </span>
             </div>
 
@@ -60,6 +60,7 @@ console.log("Employees" , Employees)
                                             value={TaskData.taskTitle}
                                             onChange={handleChange}
                                         />
+                                          {error.taskTitle && <span className="error-message">{error.taskTitle}</span>}
                                     </div>
 
                                     {/* Severity Level */}
@@ -78,6 +79,7 @@ console.log("Employees" , Employees)
                                                 </option>
                                             ))}
                                         </select>
+                                        {error.severityLevel && <span className="error-message">{error.severityLevel}</span>}
                                     </div>
 
                                     {/* Start Date */}
@@ -91,6 +93,7 @@ console.log("Employees" , Employees)
                                             value={TaskData.startDate}
                                             onChange={handleChange}
                                         />
+                                         {error.startDate && <span className="error-message">{error.startDate}</span>}
                                     </div>
 
                                     {/* End Date */}
@@ -104,6 +107,7 @@ console.log("Employees" , Employees)
                                             value={TaskData.endDate}
                                             onChange={handleChange}
                                         />
+                                         {error.endDate && <span className="error-message">{error.endDate}</span>}
                                     </div>
 
                                     {/* Task Description */}
@@ -117,6 +121,7 @@ console.log("Employees" , Employees)
                                             value={TaskData.taskDescr}
                                             onChange={handleChange}
                                         ></textarea>
+                                        {error.taskDescr && <span className="error-message">{error.taskDescr}</span>}
                                     </div>
                                     <div className="row d-flex  align-items-start mt-3 justify-content-center">
                                         {/* Upload Image */}
@@ -150,6 +155,7 @@ console.log("Employees" , Employees)
                                                     </option>
                                                 ))}
                                             </select>
+                                            {error.AssignManager && <span className="error-message">{error.AssignManager}</span>}
 
                                             <div className="mt-5 d-flex flex-column">
                                                 <label for="progress">Progress</label>
@@ -195,7 +201,7 @@ console.log("Employees" , Employees)
                                                 type="submit"
                                                 className={`btn px-4 me-4 ${styles.lastButtoncreate}`}
                                             >
-                                                Create Task
+                                                Update Task
                                             </button>
 
                                         </div>

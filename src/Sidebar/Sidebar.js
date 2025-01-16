@@ -1,28 +1,45 @@
 
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 function Sidebar({ isOpen, toggleSidebar  , user}) {
 
-  // console.log("user sidebar" , user)
+  console.log("user sidebar" , user)
+
+  const navigate = useNavigate();
+
+
+  const handleLogoClick = () => {
+    const userRole = user?.role ? user.role.toLowerCase() : null;
+
+    if (userRole === "admin") {
+      navigate("/Admin/Dashboard");
+    } else if (userRole === "manager") {
+      navigate("/Manager/Dashboard");
+    } else if (userRole === "employee") {
+      navigate("/"); // Home page for employee
+    } 
+  };
+ 
   return (
     <nav className={`sidebar ${isOpen ? '' : 'close'} mb-5`}>
       <header>
       <div className="d-flex align-items-center justify-content-left mb-4 sidebar-logo">
           <div className="justify-content-center ms-3 image">
-            <Link to="/">  <img
+            <img
               src="Worksphere.svg"
               alt="logo"
               className="img-fluid"
-              style={{ fontSize: "40px" }}
+              style={{ fontSize: "40px", cursor:"pointer"}}
+              onClick={handleLogoClick}
             />
-            </Link>
+            
           </div>
 
           {/* Conditionally render logo text */}
           {isOpen && (
             <div className="text logo-text" style={{ marginRight: "20px" }}>
-              <Link className="logo-name text-decoration-none" to="/">WorkSphere</Link>
+              <div className="logo-name text-decoration-none " style={{cursor:"pointer"}} onClick={handleLogoClick}>WorkSphere</div>
             </div>
           )}
         </div>
@@ -39,11 +56,11 @@ function Sidebar({ isOpen, toggleSidebar  , user}) {
       <div className="menu-bar">
         <div className="menu">
         <ul className="menu-links">
-          {user?.rollid === 3 && ( 
+          {/* {user.role  == "Employee" && (  */}
               <>
             <li className="nav-link" style={{ color: "#3a3b3c" }}>
               <NavLink
-                to="/"
+                to="/login"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 <i className="bi bi-house-door icon"></i>
@@ -51,11 +68,11 @@ function Sidebar({ isOpen, toggleSidebar  , user}) {
               </NavLink>
             </li>
             </>
-          )}
+          {/* )}   */}
           </ul>
 
 
-          {user?.rollid === 1 && ( 
+          {user.role  == "Admin" && ( 
             <>
           <li className="project-create-btn">
             <NavLink to="/AddProject">
@@ -67,7 +84,7 @@ function Sidebar({ isOpen, toggleSidebar  , user}) {
           <ul className="menu-links">
             <li className="nav-link" style={{ color: "#3a3b3c" }}>
               <NavLink
-                to="/admin-dashboard"
+                to="/Admin/Dashboard"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 <i className="bi bi-house-door icon"></i>
@@ -130,11 +147,11 @@ function Sidebar({ isOpen, toggleSidebar  , user}) {
           )}
 
           <ul className="menu-links">
-          {user?.rollid === 2 && ( 
+          {user.role  == "Manager" && ( 
               <>
             <li className="nav-link" style={{ color: "#3a3b3c" }}>
               <NavLink
-                to="/manager-dashboard"
+                to="/Manager/Dashboard"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 <i className="bi bi-house-door icon"></i>
@@ -152,15 +169,6 @@ function Sidebar({ isOpen, toggleSidebar  , user}) {
               </NavLink>
             </li>
           
-            <li className="nav-link">
-              <NavLink
-                to="/ManageTask"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-              >
-                <i className="bi bi-chat-dots icon"></i>
-                <span className="text nav-text">Task</span>
-              </NavLink>
-            </li>
             </>
           )}
           </ul>
