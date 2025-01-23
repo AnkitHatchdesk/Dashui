@@ -5,7 +5,7 @@ import { Dropdown } from "react-bootstrap";
 import { useProject } from '../../AdminDashboard/Context/ProjectContext';
 
 function ManagerTask({ projects }) {
-    // console.log("manager in managerTask", projects);
+    console.log("manager in managerTask", projects.title);
 
     if (!projects) {
         return <p>Loading...</p>;
@@ -37,10 +37,20 @@ function ManagerTask({ projects }) {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-
-                                <Dropdown.Item as={Link} to={`/AddTask/${projects.id}`}>
+                                <Dropdown.Item
+                                    as={Link}
+                                    to={{
+                                        pathname: `/AddTask/${projects.id}`,
+                                    }}
+                                    onClick={() => {
+                                        // Store project title in sessionStorage before navigating
+                                        sessionStorage.setItem('projectTitle', projects.title);
+                                        console.log('Navigating to AddTask with projectTitle:', projects.title);
+                                    }}
+                                >
                                     <i className="fa-solid fa-right-from-bracket me-2"></i> Add Task
                                 </Dropdown.Item>
+
 
                                 <Dropdown.Item as={Link} to={`/ManageTask/${projects.id}`}>
                                     <i className="fa-solid fa-gear me-2"></i> View Task

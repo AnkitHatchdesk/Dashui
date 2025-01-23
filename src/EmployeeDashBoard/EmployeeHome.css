@@ -1,0 +1,27 @@
+.name{
+    position: relative;
+    /* top: 80px; */
+    right:-30%;
+    bottom: 250px;
+    /* right: 215px; */
+    color: white;
+}
+
+.card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  } 
+  .card-hover:hover {
+    transform: scale(1.05);
+  }
+  
+  .card-title{
+    padding-left:  0 !important;
+    font-size: 20px !important;
+    padding-top: 0px !important;
+  }
+
+  .more-emp{
+    position: relative;
+    bottom: 10px;
+    left: 50px;
+  }

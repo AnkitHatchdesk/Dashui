@@ -1,0 +1,15 @@
+.priority {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  } 
+  .priority:hover {
+    transform: scale(1.05);
+  }
+
+  .btn-outline-custom {
+    border-color: #787878;
+    color: #6c757d;
+    font-weight: 500;
+  }
+  .btn-outline-custom:hover {
+    border-color: #0000;
+  }

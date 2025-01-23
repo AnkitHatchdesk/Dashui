@@ -155,9 +155,9 @@ export const AuthProvider = ({ children }) => {
           } else if (userRole.toLowerCase() === "manager") {
             Navigate("/Manager/Dashboard");
           } else if (userRole.toLowerCase() === "employee") {
-            Navigate("/"); // Redirect to home page for employee role
+            Navigate("/Employee/Dashboard"); // Redirect to home page for employee role
           } else {
-            Navigate("/"); // Default route for other roles
+            Navigate("/login"); // Default route for other roles
           }
           
           

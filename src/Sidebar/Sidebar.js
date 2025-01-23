@@ -17,12 +17,14 @@ function Sidebar({ isOpen, toggleSidebar  , user}) {
     } else if (userRole === "manager") {
       navigate("/Manager/Dashboard");
     } else if (userRole === "employee") {
-      navigate("/"); // Home page for employee
+      navigate("/Employee/Dashboard"); // Home page for employee
     } 
   };
+
+  const sidebarStyle = user?.role === "Employee" ? { backgroundColor: "white" } : {};
  
   return (
-    <nav className={`sidebar ${isOpen ? '' : 'close'} mb-5`}>
+    <nav className={`sidebar ${isOpen ? '' : 'close'} mb-5`  } style={sidebarStyle}>
       <header>
       <div className="d-flex align-items-center justify-content-left mb-4 sidebar-logo">
           <div className="justify-content-center ms-3 image">
@@ -56,11 +58,11 @@ function Sidebar({ isOpen, toggleSidebar  , user}) {
       <div className="menu-bar">
         <div className="menu">
         <ul className="menu-links">
-          {/* {user.role  == "Employee" && (  */}
+          {user.role  == "Employee" && ( 
               <>
             <li className="nav-link" style={{ color: "#3a3b3c" }}>
               <NavLink
-                to="/login"
+                to="/Employee/Dashboard"
                 className={({ isActive }) => (isActive ? "active-link" : "")}
               >
                 <i className="bi bi-house-door icon"></i>
@@ -68,7 +70,7 @@ function Sidebar({ isOpen, toggleSidebar  , user}) {
               </NavLink>
             </li>
             </>
-          {/* )}   */}
+           )}  
           </ul>
 
 

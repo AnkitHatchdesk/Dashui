@@ -34,6 +34,8 @@ import ManageTask from "./ManagerDashboard/Task/ManageTask";
 import EditTask from "./ManagerDashboard/Task/EditTask";
 import PrivateRoute from "./PrivateRoute";
 import UnAuthorized from "./UnAuthorized";
+import { EmployeeDashProvider } from "./EmployeeDashBoard/Context/EmployeeDashContext";
+import TaskListCard from "./EmployeeDashBoard/TaskListCard";
 
 
 function Layout({ children }) {
@@ -219,164 +221,178 @@ function App() {
           <ManageProvider>
             <ManagerDashProvider>
               <EmployeeProvider>
-                <Routes>
-                  {/* Public Routes */}
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/UnAuthorized" element={<UnAuthorized />} />
+                <EmployeeDashProvider>
+                  <Routes>
+                    <Route path="/" element={<Login />} />
+                    {/* Public Routes */}
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/UnAuthorized" element={<UnAuthorized />} />
 
-                  {/* Private Routes */}
-                  <Route
-                    path="/"
-                    element={
-                      <PrivateRoute allowedRoles={["employee", "manager", "admin"]}>
-                        <Layout>
-                          <EmployeeHome />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/Admin/Dashboard"
-                    element={
-                      <PrivateRoute allowedRoles={["admin"]}>
-                        <Layout>
-                          <AdminHome />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
+                    {/* Private Routes */}
+                    <Route
+                      path="/Employee/DashBoard"
+                      element={
+                        <PrivateRoute allowedRoles={["employee", "manager", "admin"]}>
+                          <Layout>
+                            <EmployeeHome />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
+                    <Route
+                      path="/Admin/Dashboard"
+                      element={
+                        <PrivateRoute allowedRoles={["admin"]}>
+                          <Layout>
+                            <AdminHome />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
 
-                  <Route
-                    path="/managers"
-                    element={
-                      <PrivateRoute allowedRoles={["admin"]}>
-                        <Layout>
-                          <Managers />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
-
-
-                  <Route
-                    path="/projects"
-                    element={
-                      <PrivateRoute allowedRoles={["admin"]}>
-                        <Layout>
-                          <Projects />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
-
-                  <Route
-                    path="/employees"
-                    element={
-                      <PrivateRoute allowedRoles={["admin"]}>
-                        <Layout>
-                          <Employee />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
-
-                  <Route
-                    path="/AddEmployee"
-                    element={
-                      <PrivateRoute allowedRoles={["admin"]}>
-                        <Layout>
-                          <AddEmployee />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
+                    <Route
+                      path="/managers"
+                      element={
+                        <PrivateRoute allowedRoles={["admin"]}>
+                          <Layout>
+                            <Managers />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
 
 
-                  <Route
-                    path="/Manager/Dashboard"
-                    element={
-                      <PrivateRoute allowedRoles={["manager"]}>
-                        <Layout>
-                          <ManagerHome />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
+                    <Route
+                      path="/projects"
+                      element={
+                        <PrivateRoute allowedRoles={["admin"]}>
+                          <Layout>
+                            <Projects />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/employees"
+                      element={
+                        <PrivateRoute allowedRoles={["admin"]}>
+                          <Layout>
+                            <Employee />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/AddEmployee"
+                      element={
+                        <PrivateRoute allowedRoles={["admin"]}>
+                          <Layout>
+                            <AddEmployee />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
 
 
-                  <Route
-                    path="/manager-projects"
-                    element={
-                      <PrivateRoute allowedRoles={["manager"]}>
-                        <Layout>
-                          <ManagerProjects />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/ManageTask/:id"
-                    element={
-                      <PrivateRoute allowedRoles={["manager"]}>
-                        <Layout>
-                          <ManageTask />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/AddTask/:id"
-                    element={
-                      <PrivateRoute allowedRoles={["manager"]}>
-                        <Layout>
-                          <AddTask />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
+                    <Route
+                      path="/Manager/Dashboard"
+                      element={
+                        <PrivateRoute allowedRoles={["manager"]}>
+                          <Layout>
+                            <ManagerHome />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
 
-                  <Route
-                    path="/UpdateTask/:id"
-                    element={
-                      <PrivateRoute allowedRoles={["manager"]}>
-                      <Layout>
-                        <EditTask />
-                      </Layout>
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/AddProject"
-                    element={
-                      <PrivateRoute allowedRoles={["admin"]}>
-                        <Layout>
-                          <AddProject />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/Update/:id"
-                    element={
-                      <PrivateRoute allowedRoles={["admin"]}>
-                        <Layout>
-                          <EditProject />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
-                  <Route
-                    path="/profile"
-                    element={
-                      <PrivateRoute allowedRoles={["employee", "manager", "admin"]}>
-                        <Layout>
-                          <Profile />
-                        </Layout>
-                      </PrivateRoute>
-                    }
-                  />
-                </Routes>
+
+                    <Route
+                      path="/manager-projects"
+                      element={
+                        <PrivateRoute allowedRoles={["manager"]}>
+                          <Layout>
+                            <ManagerProjects />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
+                    <Route
+                      path="/ManageTask/:id"
+                      element={
+                        <PrivateRoute allowedRoles={["manager"]}>
+                          <Layout>
+                            <ManageTask />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
+                    <Route
+                      path="/AddTask/:id"
+                      element={
+                        <PrivateRoute allowedRoles={["manager"]}>
+                          <Layout>
+                            <AddTask />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/UpdateTask/:id"
+                      element={
+                        <PrivateRoute allowedRoles={["manager"]}>
+                          <Layout>
+                            <EditTask />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
+                    <Route
+                      path="/AddProject"
+                      element={
+                        <PrivateRoute allowedRoles={["admin"]}>
+                          <Layout>
+                            <AddProject />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
+                    <Route
+                      path="/Update/:id"
+                      element={
+                        <PrivateRoute allowedRoles={["admin"]}>
+                          <Layout>
+                            <EditProject />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
+                    <Route
+                      path="/profile"
+                      element={
+                        <PrivateRoute allowedRoles={["employee", "manager", "admin"]}>
+                          <Layout>
+                            <Profile />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/Employee/tasks/:id"
+                      element={
+                        <PrivateRoute allowedRoles={["employee", "manager", "admin"]}>
+                          <Layout>
+                            <TaskListCard />
+                          </Layout>
+                        </PrivateRoute>
+                      }
+                    />
+                  </Routes>
+                </EmployeeDashProvider>
               </EmployeeProvider>
             </ManagerDashProvider>
           </ManageProvider>

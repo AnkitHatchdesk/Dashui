@@ -142,9 +142,9 @@ function ManagerHome() {
                     </div>
                   </div>
                 </div>
-
+{/* 
                 <ManagerTask />
-                <ManagerTask />
+                <ManagerTask /> */}
               </div>
             </div>
           </div>

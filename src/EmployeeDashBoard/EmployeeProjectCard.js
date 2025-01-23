@@ -1,25 +1,19 @@
 import React from 'react'
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import FormateDate from '../FormateDate';
+import { useEmployeeDash } from './Context/EmployeeDashContext';
 
 
 
 function EmployeeProjectCard({empProject}) {
-    console.log("empProject in card", empProject)
-    const navigate = useNavigate();
-  
-    const handleCardClick = () => {
-    
-      console.log("Navigating to Task List with ID:", empProject.projectId);
-      navigate(`/Employee/tasks/${empProject.projectId}`);
-    };
-    
+const{handleProjectClick} = useEmployeeDash();
+   
   
     return (
       <>
-      <div class="card-hover"  onClick={handleCardClick} style={{cursor:"pointer"}}>
+      <div class="card-hover"  onClick={() => handleProjectClick(empProject.projectId)} style={{cursor:"pointer"}}>
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">{empProject.name}</h4>

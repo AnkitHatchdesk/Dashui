@@ -166,12 +166,11 @@ export const ManagerDashProvider = ({ children }) => {
     formData.append("severityLevel", TaskData.severityLevel);
     formData.append("startDate", formattedStartDate);
     formData.append("endDate", formattedEndDate);
-    formData.append("taskDescr", TaskData.description);
+    formData.append("taskDescr", TaskData.taskDescr);
     formData.append("assignedTo", TaskData.AssignManager);
     formData.append("status", TaskData.status);
     formData.append("progress", TaskData.progress);
   
-
 
     // Append all selected files
     if (TaskData.imagePath && TaskData.imagePath.length > 0) {
