@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Employees.module.css";
 import { Link } from "react-router-dom";
-
 import EmployeeList from "./EmployeeList";
 import { useEmployee } from "../Context/EmployeeContext";
-import { useManager } from "../Context/ManagerContext";
+import { useProject } from "../Context/ProjectContext";
 import AddEmployee from "./AddEmployee";
 import EditEmployees from "./EditEmployees";
-import { useProject } from "../Context/ProjectContext";
 import DeleteProjectModal from "../Modal/DeleteProjectModal";
 
-
 const Employee = () => {
-    const { Employees,  selectedEmployee  , handleDelete , handleShow} = useEmployee();
-    
-      const{projectToDelete , handleCloseModal  , showModal , handleOpenModal  }  = useProject()
+    const { Employees, selectedEmployee, handleDelete, handleShow } = useEmployee();
+    const { projectToDelete, handleCloseModal, showModal, handleOpenModal } = useProject();
 
     return (
         <>
@@ -64,48 +60,38 @@ const Employee = () => {
                                 </div>
                             </div>
                             <div className="container-xl">
-                                <div className={` table-responsive ${styles.tables}`}>
+                                <div className={`table-responsive ${styles.tables}`}>
                                     <div className="table-wrapper">
                                         <div className="table-title ">
                                             <div className="row">
                                                 <div className="col-sm-6">
                                                     <h2 className="fs-2 text-black">Manage Employees</h2>
                                                 </div>
-                                                {/* <div className="col-sm-6 text-end">
-                                                    <Link to="/AddEmployee">
-                                                        <input type="button" value="Add Employee" className="btn btn-outline-secondary" />
-                                                    </Link>
-                                                </div> */}
                                             </div>
                                         </div>
 
-
                                         <table className={`table table-striped table-hover ${styles.abc}`}>
                                             <thead>
-                                                <tr >
+                                                <tr>
                                                     <th>Name</th>
                                                     <th>Email</th>
-                                                    <th>Department</th>
-                                                    <th>Date Of Joining</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-
                                                 {Employees && Employees.length > 0 ? (
                                                     Employees.map((employee) => (
                                                         <EmployeeList
-                                                            key={employee.Id}
-                                                            Employees={employee}
-                                                            handleShow={() => handleShow(Employees)}
-                                                            handleOpenModal = {handleOpenModal}// Edit manager ke liye
+                                                            key={employee.id} // Make sure `id` is correct here
+                                                            employee={employee} // Pass employee object to EmployeeList
+                                                            handleShow={handleShow} // Handle show
+                                                            handleOpenModal={handleOpenModal} // Delete
                                                         />
                                                     ))
-
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="4" className="text-center">
-                                                            No Employees  available
+                                                        <td colSpan="3" className="text-center">
+                                                            No Employees available
                                                         </td>
                                                     </tr>
                                                 )}
@@ -120,7 +106,7 @@ const Employee = () => {
                 </div>
             </div>
 
-            {/* <AddEmployee /> */}
+            {/* Render AddEmployee or EditEmployee based on selectedEmployee */}
             {selectedEmployee === null && <AddEmployee />}
             {selectedEmployee !== null && <EditEmployees />}
             <DeleteProjectModal
@@ -129,12 +115,8 @@ const Employee = () => {
                 handleDelete={handleDelete}
                 id={projectToDelete}
             />
-
         </>
     );
 };
 
 export default Employee;
-
-
-

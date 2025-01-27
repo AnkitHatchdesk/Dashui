@@ -16,7 +16,7 @@ export const EmployeeProvider = ({ children }) => {
     const [error, setError] = useState({});
     const[loading , setLoading] = useState(false)
     const [show, setShow] = useState(false)
-      const [projectToDelete, setProjectToDelete] = useState(null);
+
     const[EmployeeData , setEmployeeData] = useState({
         empId: "",
         name: "",
@@ -24,17 +24,12 @@ export const EmployeeProvider = ({ children }) => {
 
     })
 
-    // console.log("selectedEmployee" , selectedEmployee)
-  
-    // console.log("show" , show)
-    const navigate = useNavigate();
-    // const [pageSize] = useState(10);
-
 
     //using fatching data with Id
     const fetchEmployeeData = async (empId) => {
+        console.log("empId" , empId)
         try {
-            const response = await axiosInstance.get(`/Employee/${empId}`);
+            const response = await axiosInstance.get(`/api/Employee/${empId}`);
             console.log("Project Data:", response.data);
             const data = response.data;
             setEmployeeData((prevData) => ({
@@ -77,30 +72,70 @@ export const EmployeeProvider = ({ children }) => {
         }
     };
 
-    const handleShow = (Employees = null) => {
-        console.log("employees" , Employees)
+    const handleShow = (employee) => {
+        console.log("employee handle show" , employee)
+        // Set selected employee data when edit button is clicked
         setselectedEmployee({
-            Id: Employees?.Id || "",
-            name: Employees?.name || "",
-            email: Employees?.email || "",
+            id: employee.id,
+            firstName:employee.firstName,
+            lastName:employee.lastName,
+            email: employee.email,
         });
-        setShow(true);
-        setselectedEmployee(Employees || null); 
+        setShow(true);  
     };
-
 
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        
         setEmployeeData((prevData) => ({ ...prevData, [name]: value }));
 
-        // setError((prevErrors) => {
-        //     const updatedErrors = { ...prevErrors };
-        //     if (updatedErrors[name]) {
-        //         delete updatedErrors[name];
-        //     }
-        //     return updatedErrors;
-        // });
+        setError((prevErrors) => {
+            const updatedErrors = { ...prevErrors };
+            if (updatedErrors[name]) {
+                delete updatedErrors[name];
+            }
+            return updatedErrors;
+        });
+    };
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setselectedEmployee((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        const [firstName, lastName] = (EmployeeData.name || "").split(" ", 2);
+        const payload = {
+            email: selectedEmployee?.email || "",
+            firstName: selectedEmployee?.firstName || "",
+            lastName: selectedEmployee?.lastName || "",
+        };
+
+        console.log("payload " , payload)
+        try {
+            // API call to update the employee
+            const response = await axiosInstance.put(`/api/UpdateEmployee/${selectedEmployee.id}`, payload);
+            if (response.status === 200) {
+                // Update the employee list with the updated data
+                const updatedEmployees = Employees.map((employee) =>
+                    employee.id === selectedEmployee.id ? response.data : employee
+                );
+                console.log("updatedEmployee" , updatedEmployees)
+                // Set the updated employee list and reset the selected employee
+                setselectedEmployee(updatedEmployees);
+                toast.success("Employee Updated successfully!");
+                fetchEmployees();
+            }else {
+                toast.error("Failed to updated employee.");
+            }
+        } catch (error) {
+            console.error("Error updating employee:", error);
+        }
     };
 
     const handleEmployeeSubmit = async (e) => {
@@ -112,7 +147,6 @@ export const EmployeeProvider = ({ children }) => {
           email: EmployeeData.email || "",
           firstName: firstName || "",
           lastName: lastName || "",
-         
         };
       
         try {
@@ -169,9 +203,11 @@ export const EmployeeProvider = ({ children }) => {
                 show,
                 handleOffCanvasClose,
                 loading,
-                handleDelete
-
-
+                handleDelete,
+                EmployeeData,
+                selectedEmployee,
+                handleEditChange,
+                handleEditSubmit
             }}
         >
             {children}

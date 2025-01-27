@@ -2,9 +2,9 @@
 import React, { useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 
-function Sidebar({ isOpen, toggleSidebar  , user}) {
+function Sidebar({ isOpen, toggleSidebar, user }) {
 
-  console.log("user sidebar" , user)
+  console.log("user sidebar", user)
 
   const navigate = useNavigate();
 
@@ -17,31 +17,44 @@ function Sidebar({ isOpen, toggleSidebar  , user}) {
     } else if (userRole === "manager") {
       navigate("/Manager/Dashboard");
     } else if (userRole === "employee") {
-      navigate("/Employee/Dashboard"); // Home page for employee
-    } 
+      navigate("/Employee/Dashboard");
+    }
   };
 
-  const sidebarStyle = user?.role === "Employee" ? { backgroundColor: "white" } : {};
- 
+  const sidebarStyle = user?.role?.toLowerCase() === "employee" ? { backgroundColor: "#f5f5f5" } : {};
+
+  console.log("sidebarStyle", sidebarStyle)
+
   return (
-    <nav className={`sidebar ${isOpen ? '' : 'close'} mb-5`  } style={sidebarStyle}>
-      <header>
-      <div className="d-flex align-items-center justify-content-left mb-4 sidebar-logo">
+    <nav className={`sidebar ${isOpen ? '' : 'close'} mb-5`}>
+      <header style={sidebarStyle}>
+        <div className="d-flex align-items-center justify-content-left mb-4 sidebar-logo">
           <div className="justify-content-center ms-3 image">
             <img
               src="Worksphere.svg"
               alt="logo"
               className="img-fluid"
-              style={{ fontSize: "40px", cursor:"pointer"}}
+              style={{ fontSize: "40px", cursor: "pointer" }}
               onClick={handleLogoClick}
             />
-            
+
           </div>
 
           {/* Conditionally render logo text */}
           {isOpen && (
             <div className="text logo-text" style={{ marginRight: "20px" }}>
-              <div className="logo-name text-decoration-none " style={{cursor:"pointer"}} onClick={handleLogoClick}>WorkSphere</div>
+              <div
+                className="logo-name text-decoration-none"
+                style={{
+                  cursor: "pointer",
+                  color: user?.role === "employee" ? "black" : "white", // Employee ke liye black, baki ke liye white
+                  fontWeight: user?.role === "employee" ? "bold" : "normal", // Optional for better UI
+                  // !important force karne ke liye inline CSS me manually use karein
+                }}
+                onClick={handleLogoClick}
+              >
+                WorkSphere
+              </div>
             </div>
           )}
         </div>
@@ -55,124 +68,124 @@ function Sidebar({ isOpen, toggleSidebar  , user}) {
         </button>
       </header>
 
-      <div className="menu-bar">
+      <div className="menu-bar" style={sidebarStyle}>
         <div className="menu">
-        <ul className="menu-links">
-          {user.role  == "Employee" && ( 
+          <ul className="menu-links">
+            {user.role == "Employee" && (
               <>
-            <li className="nav-link" style={{ color: "#3a3b3c" }}>
-              <NavLink
-                to="/Employee/Dashboard"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-              >
-                <i className="bi bi-house-door icon"></i>
-                <span className="text nav-text">Dashboard</span>
-              </NavLink>
-            </li>
-            </>
-           )}  
+                <li  className={`nav-link ${user?.role === "employee" ? "employee" : ""}`} style={{ color: "#3a3b3c" }}>
+                  <NavLink
+                    to="/Employee/Dashboard"
+                    className={({ isActive }) => (isActive ? "active-link" : "")}
+                  >
+                    <i className="bi bi-house-door icon"></i>
+                    <span className="text nav-text">Dashboard</span>
+                  </NavLink>
+                </li>
+              </>
+            )}
           </ul>
 
 
-          {user.role  == "Admin" && ( 
+          {user.role == "Admin" && (
             <>
-          <li className="project-create-btn">
-            <NavLink to="/AddProject">
-              <i className="bi bi-plus-lg"></i>
-              <p  className= "text" style={{ color: "#6f7173" }}>Create Project</p>
-            </NavLink>
-          </li>
+              <li className="project-create-btn">
+                <NavLink to="/AddProject">
+                  <i className="bi bi-plus-lg"></i>
+                  <p className="text" style={{ color: "#6f7173" }}>Create Project</p>
+                </NavLink>
+              </li>
 
-          <ul className="menu-links">
-            <li className="nav-link" style={{ color: "#3a3b3c" }}>
-              <NavLink
-                to="/Admin/Dashboard"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-              >
-                <i className="bi bi-house-door icon"></i>
-                <span className="text nav-text">Dashboard</span>
-              </NavLink>
-            </li>
+              <ul className="menu-links">
+                <li className="nav-link" style={{ color: "#3a3b3c" }}>
+                  <NavLink
+                    to="/Admin/Dashboard"
+                    className={({ isActive }) => (isActive ? "active-link" : "")}
+                  >
+                    <i className="bi bi-house-door icon"></i>
+                    <span className="text nav-text">Dashboard</span>
+                  </NavLink>
+                </li>
 
-            <li className="nav-link">
-              <NavLink
-                to="/managers"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-              >
-                <i className="bi bi-chat-dots icon"></i>
-                <span className="text nav-text">Managers</span>
-              </NavLink>
-            </li>
+                <li className="nav-link">
+                  <NavLink
+                    to="/managers"
+                    className={({ isActive }) => (isActive ? "active-link" : "")}
+                  >
+                    <i className="bi bi-chat-dots icon"></i>
+                    <span className="text nav-text">Managers</span>
+                  </NavLink>
+                </li>
 
-            <li className="nav-link">
-              <NavLink
-                to="/projects"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-              >
-                <i className="bi bi-chat-dots icon"></i>
-                <span className="text nav-text">Projects</span>
-              </NavLink>
-            </li>
+                <li className="nav-link">
+                  <NavLink
+                    to="/projects"
+                    className={({ isActive }) => (isActive ? "active-link" : "")}
+                  >
+                    <i className="bi bi-chat-dots icon"></i>
+                    <span className="text nav-text">Projects</span>
+                  </NavLink>
+                </li>
 
-            <li className="nav-link">
-              <NavLink
-                to="/employees"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-              >
-                <i className="bi bi-chat-dots icon"></i>
-                <span className="text nav-text">Employees</span>
-              </NavLink>
-            </li>
+                <li className="nav-link">
+                  <NavLink
+                    to="/employees"
+                    className={({ isActive }) => (isActive ? "active-link" : "")}
+                  >
+                    <i className="bi bi-chat-dots icon"></i>
+                    <span className="text nav-text">Employees</span>
+                  </NavLink>
+                </li>
 
-            <li className="nav-link">
-              <a href="#">
-                <i className="bi bi-people icon"></i>
-                <span className="text nav-text">Notification</span>
-              </a>
-            </li>
+                <li className="nav-link">
+                  <a href="#">
+                    <i className="bi bi-people icon"></i>
+                    <span className="text nav-text">Notification</span>
+                  </a>
+                </li>
 
-            <li className="nav-link">
-              <a href="#">
-                <i className="bi bi-credit-card icon"></i>
-                <span className="text nav-text">Likes</span>
-              </a>
-            </li>
+                <li className="nav-link">
+                  <a href="#">
+                    <i className="bi bi-credit-card icon"></i>
+                    <span className="text nav-text">Likes</span>
+                  </a>
+                </li>
 
-            <li className="nav-link">
-              <a href="#">
-                <i className="bi bi-gear icon"></i>
-                <span className="text nav-text">Wallets</span>
-              </a>
-            </li>
-          </ul>
+                <li className="nav-link">
+                  <a href="#">
+                    <i className="bi bi-gear icon"></i>
+                    <span className="text nav-text">Wallets</span>
+                  </a>
+                </li>
+              </ul>
             </>
           )}
 
           <ul className="menu-links">
-          {user.role  == "Manager" && ( 
+            {user.role == "Manager" && (
               <>
-            <li className="nav-link" style={{ color: "#3a3b3c" }}>
-              <NavLink
-                to="/Manager/Dashboard"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-              >
-                <i className="bi bi-house-door icon"></i>
-                <span className="text nav-text">Dashboard</span>
-              </NavLink>
-            </li>
+                <li className="nav-link" style={{ color: "#3a3b3c" }}>
+                  <NavLink
+                    to="/Manager/Dashboard"
+                    className={({ isActive }) => (isActive ? "active-link" : "")}
+                  >
+                    <i className="bi bi-house-door icon"></i>
+                    <span className="text nav-text">Dashboard</span>
+                  </NavLink>
+                </li>
 
-            <li className="nav-link">
-              <NavLink
-                to="/manager-projects"
-                className={({ isActive }) => (isActive ? "active-link" : "")}
-              >
-                <i className="bi bi-chat-dots icon"></i>
-                <span className="text nav-text">Projects</span>
-              </NavLink>
-            </li>
-          
-            </>
-          )}
+                <li className="nav-link">
+                  <NavLink
+                    to="/manager-projects"
+                    className={({ isActive }) => (isActive ? "active-link" : "")}
+                  >
+                    <i className="bi bi-chat-dots icon"></i>
+                    <span className="text nav-text">Projects</span>
+                  </NavLink>
+                </li>
+
+              </>
+            )}
           </ul>
         </div>
 
