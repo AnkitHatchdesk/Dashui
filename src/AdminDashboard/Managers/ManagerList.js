@@ -20,12 +20,12 @@ function ManagerList({ manager, handleShow, handleOpenModal  }) {
         <td>{FormateDate(manager.dateOfJoining)}</td>
 
         <td className="action-buttons d-flex">
-          <button
+          {/* <button
             className="btn btn-warning btn-sm me-2"
             onClick={() => handleShow(manager)}
           >
              <i className="bi bi-pencil"></i>
-          </button>
+          </button> */}
 
           <button
             onClick={() => handleOpenModal(manager.id)}

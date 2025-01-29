@@ -5,10 +5,10 @@ import { useManager } from "../Context/ManagerContext";
 function EditManager() {
     const {
         handleClose,
-        show,
-        handleManagerUpdateSubmit,
-        handleChange,
-        managerData,
+        show,  
+        handleEditChange,
+        selectedManager,
+        handleEditSubmit
     } = useManager();
 
     return (
@@ -17,16 +17,25 @@ function EditManager() {
                 <h4>Edit Manager</h4>
             </Offcanvas.Header>
             <Offcanvas.Body>
-                <form onSubmit={handleManagerUpdateSubmit} encType="multipart/form-data">
+                <form onSubmit={handleEditSubmit} encType="multipart/form-data">
                     <div className="mb-3">
-                        <label className="form-label">Name</label>
+                        <label className="form-label">firstName</label>
                         <input
                             type="text"
                             className="form-control"
-                            name="name"
-                            value={managerData.name}
-                            onChange={handleChange}
-                            required
+                            name="firstName"
+                            value={selectedManager?.firstName || ""}
+                            onChange={handleEditChange}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Last Name</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="lastName"
+                            value={selectedManager?.lastName || ""}
+                            onChange={handleEditChange}
                         />
                     </div>
                     <div className="mb-3">
@@ -35,12 +44,11 @@ function EditManager() {
                             type="email"
                             className="form-control"
                             name="email"
-                            value={managerData.email}
-                            onChange={handleChange}
-                            required
+                            value={selectedManager?.email || ""}
+                            onChange={handleEditChange}
                         />
                     </div>
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                         <label className="form-label">Project</label>
                         <input
                             type="text"
@@ -49,8 +57,8 @@ function EditManager() {
                             value={managerData.projectName}
                             onChange={handleChange}
                         />
-                    </div>
-                    <div class="row mb-3">
+                    </div> */}
+                    {/* <div class="row mb-3">
                         <div class="col-md-12" style={{ fontSize: "14px" }}>
                             <label class="form-label fs-6">Due Date</label>
                             <input
@@ -63,7 +71,7 @@ function EditManager() {
                                 style={{ width: "100%", height: "40px" }}
                             />
                         </div>
-                    </div>
+                    </div> */}
               <div class="d-flex justify-content-center">
                 <button
                   type="button"

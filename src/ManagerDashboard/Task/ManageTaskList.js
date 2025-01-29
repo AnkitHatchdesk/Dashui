@@ -14,7 +14,7 @@ function ManageTaskList({ Tasks  , handleOpenModal}) {
             <td>{Tasks.employeeName}</td>
             <td>{Tasks.severityLevelName}</td>
             <td>{FormateDate(Tasks.startDate)}</td>
-            <td>{FormateDate(Tasks.startDate)}</td>
+            <td>{FormateDate(Tasks.endDate)}</td>
             <td>{Tasks.progress}</td>
 
             <td className="action-buttons d-flex">

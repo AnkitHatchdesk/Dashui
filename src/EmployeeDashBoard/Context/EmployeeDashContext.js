@@ -19,6 +19,8 @@ export const EmployeeDashProvider = ({ children }) => {
     Done: [],
   });
 
+
+  console.log("grouped task" , groupedTasks)
   useEffect(() => {
     // Fetch the status list from the backend
     const fetchStatuses = async () => {

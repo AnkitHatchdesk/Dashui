@@ -11,7 +11,7 @@ function TaskListCard() {
       <div class="container">
         <div class="projectname d-flex justify-content-between align-items-center pt-4 pb-2">
           <div class="d-flex justify-content-center align-items-center">
-            <h2>Event Management</h2>
+            <h2 className="fw-bold fs-1">Event Management</h2>
             <a href="#"><i class='bx bxs-edit ms-2 text-primary'></i></a>
             <a href="#"><i class='bx bx-link-alt ms-2 text-primary' ></i></a>
           </div>
@@ -30,7 +30,7 @@ function TaskListCard() {
           <div class="d-flex">
             <div class="dropdown me-2">
               <button class="btn btn-white border-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class='bx bx-filter-alt me-2'></i> Filter
+              <i class="fa-solid fa-filter me-2"></i>Filter
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 <li><a class="dropdown-item" href="#">filter1</a></li>
@@ -40,7 +40,7 @@ function TaskListCard() {
             </div>
             <div class="dropdown mx-2">
               <button class="btn btn-white border-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class='bx bx-calendar-alt me-2'></i> Today
+              <i class="fa-solid fa-calendar-week me-2"></i> Today
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
                 <li><a class="dropdown-item" href="#">today</a></li>

@@ -72,19 +72,28 @@ export const EmployeeProvider = ({ children }) => {
         }
     };
 
-    const handleShow = (employee) => {
-        console.log("employee handle show" , employee)
-        // Set selected employee data when edit button is clicked
-        setselectedEmployee({
-            id: employee.id,
-            firstName:employee.firstName,
-            lastName:employee.lastName,
-            email: employee.email,
-        });
-        setShow(true);  
+    const handleShow = (employee =null) => {
+        console.log("employee handle show", employee); 
+        if (!employee) {
+            // Agar null hai toh blank values set karo
+            setEmployeeData({
+                Id: employee?.Id || "",
+                name: employee?.name || "",
+                email: employee?.email || "",
+              });
+        } else {
+            // Agar employee hai toh uska data set karo
+            setselectedEmployee({
+                id: employee.id,
+                firstName: employee.firstName,
+                lastName: employee.lastName,
+                email: employee.email,
+            });
+        }
+        setShow(true);
+        setselectedEmployee(employee || null); 
     };
-
-
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         
@@ -116,7 +125,7 @@ export const EmployeeProvider = ({ children }) => {
             lastName: selectedEmployee?.lastName || "",
         };
 
-        console.log("payload " , payload)
+    
         try {
             // API call to update the employee
             const response = await axiosInstance.put(`/api/UpdateEmployee/${selectedEmployee.id}`, payload);
@@ -139,6 +148,7 @@ export const EmployeeProvider = ({ children }) => {
     };
 
     const handleEmployeeSubmit = async (e) => {
+        alert("hi")
         e.preventDefault();
         setLoading(true);
       
@@ -151,6 +161,7 @@ export const EmployeeProvider = ({ children }) => {
       
         try {
             const response = await axiosInstance.post("/api/account/register-Employee", payload);
+            console.log("response employee" , response.data)
           if (response.data) {
             toast.success("Employee saved successfully!");
             setEmployeeData(response.data)
@@ -199,7 +210,6 @@ export const EmployeeProvider = ({ children }) => {
                 Employees,
                 handleShow,
                 selectedEmployee,
-                handleEmployeeSubmit,
                 show,
                 handleOffCanvasClose,
                 loading,

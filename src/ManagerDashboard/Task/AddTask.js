@@ -76,8 +76,6 @@ function AddTask() {
                                         </div>
                                     </div>
 
-
-
                                     <div className="row mt-3">
                                         {/* Start Date */}
                                         <div className="col-md-6">

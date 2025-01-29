@@ -8,6 +8,7 @@ import AddManager from "./AddManager";
 import EditManager from "./EditManager";
 import DeleteProjectModal from "../Modal/DeleteProjectModal";
 import { useProject } from "../Context/ProjectContext";
+import { useManagerDash } from "../../ManagerDashboard/Context/ManagerDashContext";
 
 
 function Managers() {
@@ -19,8 +20,9 @@ function Managers() {
     handleDelete
   } = useManager();
 
-  const{projectToDelete , handleCloseModal  , showModal  , handleOpenModal }  = useProject()
+  const { projectToDelete, handleCloseModal, showModal, handleOpenModal  , projects } = useProject()
 
+  const { status } = useManagerDash();
 
   return (
     <>
@@ -61,26 +63,32 @@ function Managers() {
                   <div className="select-container">
                     <div>
                       <select id="select1" className="select-box">
-                        <option value="">Project</option>
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
-                        <option value="option3">Option 3</option>
+                        <option value="">Select Project</option>
+                        {projects.map((option) => (
+                          <option key={option.id} value={option.id}>
+                            {option.title}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <div>
                       <select id="select2" className="select-box">
-                        <option value="">Project Manager</option>
-                        <option value="red">Red</option>
-                        <option value="blue">Blue</option>
-                        <option value="green">Green</option>
+                        <option value="">Select Manager</option> 
+                        {managers.map((option) => (
+                          <option key={option.id} value={option.id}>
+                            {option.fullName}
+                          </option>
+                        ))}
                       </select>
                     </div>
                     <div>
                       <select id="select3" className="select-box">
-                        <option value="">Status</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                      <option value="">Select Status</option>
+                        {status.map((option) => (
+                          <option key={option.statusId} value={option.statusId}>
+                            {option.statusName}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -115,8 +123,8 @@ function Managers() {
                             <ManagerList
                               key={manager.id}
                               manager={manager}
-                              handleShow={() => handleShow(manager)} 
-                              handleOpenModal = {handleOpenModal}// Edit manager ke liye
+                              handleShow={() => handleShow(manager)}
+                              handleOpenModal={handleOpenModal}// Edit manager ke liye
                             />
                           ))
                         ) : (

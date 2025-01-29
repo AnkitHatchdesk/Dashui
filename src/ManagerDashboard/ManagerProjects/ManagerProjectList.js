@@ -18,7 +18,7 @@ function ManagerProjectList({ project }) {
           {FormateDate(project.createdOn)}
         </td>
 
-        <td className="action-buttons d-flex">
+        {/* <td className="action-buttons d-flex">
           <button
             className="btn btn-warning btn-sm me-2"
           // onClick={() => handleShow(manager)}
@@ -33,7 +33,7 @@ function ManagerProjectList({ project }) {
           >
             <i className="bi bi-trash"></i>
           </button>
-        </td>
+        </td> */}
       </tr>
     </>
   );

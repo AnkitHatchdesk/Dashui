@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api";
 import { toast } from "react-toastify";
+import { useManagerDash } from "../../ManagerDashboard/Context/ManagerDashContext";
 
 const ManagerContext = createContext();
 
@@ -19,11 +20,14 @@ export const ManageProvider = ({ children }) => {
   const [selectedManager, setSelectedManager] = useState(null);
   const [managerToDelete, setmanagerToDelete] = useState(null);
 
+
   const [managerData, setManagerData] = useState({
     id: "",
     name: "",
     email: "",
   });
+
+
 
   const handleDeleteOpenModal = (Id) => {
     // console.log("projID modal" , Id)
@@ -38,17 +42,35 @@ export const ManageProvider = ({ children }) => {
   }
 
 
-
-  const handleShow = (manager = null) => {
-    setManagerData({
-      Id: manager?.Id || "",
-      name: manager?.name || "",
-      email: manager?.email || "",
-    });
+  const handleShow = (manager =null) => {
+    console.log("manager handle show", manager); 
+    if (!manager) {
+        // Agar null hai toh blank values set karo
+        setManagerData({
+            Id: manager?.Id || "",
+            name: manager?.name || "",
+            email: manager?.email || "",
+          });
+    } else {
+        // Agar employee hai toh uska data set karo
+        setSelectedManager({
+            id: manager.id,
+            firstName: manager.firstName,
+            lastName: manager.lastName,
+            email: manager.email,
+        });
+    }
     setShow(true);
-    setSelectedManager(manager || null); // Ensure no invalid data is passed
-  };
-  
+    setSelectedManager(manager || null); 
+};
+
+const handleEditChange = (e) => {
+  const { name, value } = e.target;
+  setSelectedManager((prevData) => ({
+      ...prevData,
+      [name]: value,
+  }));
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -190,7 +212,7 @@ export const ManageProvider = ({ children }) => {
         handleDeleteOpenModal,
         showDeleteModal,
         managerToDelete,
-        handleManagerUpdateSubmit
+        handleEditChange
 
       }}
     >
