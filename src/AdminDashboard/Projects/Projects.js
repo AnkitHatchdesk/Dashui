@@ -26,7 +26,7 @@ const Projects = () => {
     handleDelete,
     showModal,
     projectToDelete,
-  
+
   } = useProject();
 
   const disablePrevious = currentPage === 1;
@@ -110,7 +110,7 @@ const Projects = () => {
                         Showing <b>{getStartIndex()}</b> to <b>{getEndIndex()}</b> of <b>{totalEntries}</b>{" "}
                         entries
                       </div>
-                      <ul className="pagination">
+                      {/* <ul className="pagination">
                         <li
                           className={`page-item ${disablePrevious ? "disabled" : ""}`}
                           onClick={() => !disablePrevious && handlePageChange(currentPage - 1)}
@@ -132,13 +132,50 @@ const Projects = () => {
                         ))}
                         <li
                           className={`page-item ${disableNext ? "disabled" : ""}`}
-                          onClick={() => !disableNext && handlePageChange(currentPage + 1)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            !disableNext && handlePageChange(currentPage + 1);
+                          }}
                         >
-                          <a href="#" className="page-link">
-                            Next
-                          </a>
+                          <a href="#" className="page-link">Next</a>
+                        </li>
+                      </ul> */}
+
+                      <ul className="pagination">
+                        <li
+                          className={`page-item ${disablePrevious ? "disabled" : ""}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (!disablePrevious) handlePageChange(currentPage - 1);
+                          }}
+                        >
+                          <span className="page-link" style={{cursor:"pointer"}}>Previous</span>
+                        </li>
+
+                        {[...Array(totalPages)].map((_, index) => (
+                          <li
+                            key={index + 1}
+                            className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handlePageChange(index + 1);
+                            }}
+                          >
+                            <span className="page-link" style={{cursor:"pointer"}}>{index + 1}</span>
+                          </li>
+                        ))}
+
+                        <li
+                          className={`page-item ${disableNext ? "disabled" : ""}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            if (!disableNext) handlePageChange(currentPage + 1);
+                          }}
+                        >
+                          <span className="page-link" style={{cursor:"pointer"}}>Next</span>
                         </li>
                       </ul>
+
                     </div>
                   </div>
                 </div>

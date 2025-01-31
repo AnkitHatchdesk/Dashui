@@ -2,39 +2,25 @@ import React from 'react'
 import ManagerProjectList from './ManagerProjectList'
 import styles from "./ManagerProject.module.css"
 import { useManagerDash } from '../Context/ManagerDashContext'
+import { Link } from 'react-router-dom';
 
 function ManagerProjects() {
 
-    const{projects} = useManagerDash();
+  const { projects } = useManagerDash();
 
 
-    console.log("projects in manager project" , projects)
+  console.log("projects in manager project", projects)
   return (
     <div>
       <div>
-        <div className="todo-container">
-          <div className="welcome-text ps-3 fs-2">Managers Projects</div>
-          {/* <div className="d-flex align-items-center me-4">
-            <div className="todo-group">
-              <button
-                className={`${styles.invitebutton} container d-flex justify-content-center align-items-center `}
-                style={{ width: "160px" }}
-                onClick={() => handleShow(null)} 
-              >
-                Add Member{" "}
-                <span>
-                  <i className="bi bi-plus-lg"></i>
-                </span>
-              </button>
-            </div>
-            <div className="download">
-              <i className="bi bi-download"></i>
-            </div>
-            <div className="pdf-box">
-              <i className="bi bi-file-earmark-pdf"></i>
-            </div>
-            <i className="bi bi-printer ps-3"></i>
-          </div> */}
+        <div className="form-accrdian">
+          <Link to="/Manager/DashBoard" className="text-decoration-none" style={{ color: "#787486" }}>
+            Home
+          </Link>
+          <i className="bi bi-chevron-right mx-2"></i>
+          <Link className="text-decoration-none" style={{ color: "#787486" }}>
+            Projects
+          </Link>
         </div>
 
         <div className="container">
@@ -79,30 +65,30 @@ function ManagerProjects() {
                     <div className="table-title">
                       <div className="row">
                         <div className="col-sm-6">
-                          <h2 className="fs-2 text-black">Managers</h2>
+                          <h2 className="fs-2 text-black">Manager Projects</h2>
                         </div>
                       </div>
                     </div>
                     <table className="table table-striped table-hover">
                       <thead>
-                        <tr>
-          
+                        <tr className='text-center '>
+
                           <th>Project Name</th>
-                          <th>Date</th>
-                          <th>Action</th>
+                          <th>Date Of Joining</th>
+                          {/* <th>Action</th> */}
                         </tr>
                       </thead>
-                      <tbody>
-                     { projects.map((project) => (
-                            <ManagerProjectList
-                              key={project.id}
-                              project={project}
-                            //   handleShow={() => handleShow(manager)} 
-                            //   handleOpenModal = {handleOpenModal}
-                            />
-                      ))}
-                        
-     
+                      <tbody className='text-center'>
+                        {projects.map((project) => (
+                          <ManagerProjectList
+                            key={project.id}
+                            project={project}
+                          //   handleShow={() => handleShow(manager)} 
+                          //   handleOpenModal = {handleOpenModal}
+                          />
+                        ))}
+
+
                       </tbody>
                     </table>
                   </div>

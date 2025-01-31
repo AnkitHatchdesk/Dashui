@@ -3,18 +3,21 @@ import styles from "./ManagerHome.module.css";
 import ManagerTask from "../ManagerTask/ManagerTask";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import { useManagerDash } from "../Context/ManagerDashContext";
+import { useAuth } from "../../AdminDashboard/Context/AuthContext";
 
 
 function ManagerHome() {
   const { projects } = useManagerDash();
-
+  
+const{user} = useAuth();
+console.log("user manager home" , user)
 
   // console.log("managers projects Home" , projects)
 
   return (
     <>
       <div className={`${styles.todocontainer}`}>
-        <div className={`${styles.welcometext}`}>Welcome back, Anima 👋</div>
+        <div className={`${styles.welcometext}`}>{` Welcome Back ${user.FirstName}`}👋</div>
         <div className="d-flex align-items-center">
           <div className={`${styles.todogroup}`}>
             <img

@@ -99,7 +99,7 @@ body.dark {
     font-size: 17px;
     font-weight: 500;
     white-space: nowrap;
-    opacity: 1;
+    opacity: 8;
   }
   .sidebar.close .input {
     opacity: 0;
@@ -113,8 +113,21 @@ body.dark {
 
 /* Styling for active link */
 .nav-link .active-link {
-  color: #e5e9ee; /* Blue color for active link */
-  font-weight: bold; /* Highlight active link */
+  font-weight: bold;  
+  color: #e5e9ee;  
+}
+
+
+.admin-active  , .manager-active {
+  color: #e5e9ee;  
+  font-weight: bold;
+
+}
+
+.employee-active {
+  color: #0a0a0a !important;  
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 
@@ -223,11 +236,13 @@ body.dark {
 
   .sidebar li a:hover .icon,
   .sidebar li a:hover .text {
-    color: #fff;
+    color: #757474;
   }
   .sidebar .menu-bar .menu .menu-links .nav-link .active {
     color: #fff;
   }
+
+
 
   .sidebar .menu-bar {
     height: calc(100% - 55px);
@@ -1681,7 +1696,8 @@ body.dark {
   }
   
 
-
+  
+  
 
  
  
