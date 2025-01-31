@@ -29,7 +29,7 @@ export const EmployeeProvider = ({ children }) => {
     const fetchEmployeeData = async (empId) => {
         console.log("empId" , empId)
         try {
-            const response = await axiosInstance.get(`/api/Employee/${empId}`);
+            const response = await axiosInstance.get(`/Employee/${empId}`);
             console.log("Project Data:", response.data);
             const data = response.data;
             setEmployeeData((prevData) => ({
@@ -59,7 +59,7 @@ export const EmployeeProvider = ({ children }) => {
     const fetchEmployees = async () => {
         // setLoading(true);
         try {
-            const response = await axiosInstance.get(`/api/GetAllEmployee`);
+            const response = await axiosInstance.get(`/GetAllEmployee`);
             // console.log("response employee", response.data)
             setEmployees(response.data);
             // setTotalPages(response.data.totalPages);
@@ -128,7 +128,7 @@ export const EmployeeProvider = ({ children }) => {
     
         try {
             // API call to update the employee
-            const response = await axiosInstance.put(`/api/UpdateEmployee/${selectedEmployee.id}`, payload);
+            const response = await axiosInstance.put(`/UpdateEmployee/${selectedEmployee.id}`, payload);
             if (response.status === 200) {
                 // Update the employee list with the updated data
                 const updatedEmployees = Employees.map((employee) =>
@@ -160,7 +160,7 @@ export const EmployeeProvider = ({ children }) => {
         };
       
         try {
-            const response = await axiosInstance.post("/api/account/register-Employee", payload);
+            const response = await axiosInstance.post("/account/register-Employee", payload);
             console.log("response employee" , response.data)
           if (response.data) {
             toast.success("Employee saved successfully!");
@@ -182,7 +182,7 @@ export const EmployeeProvider = ({ children }) => {
 
       const handleDelete = async (Id) => {
         try {
-            const response = await axiosInstance.delete(`/api/Employee/${Id}`);
+            const response = await axiosInstance.delete(`/Employee/${Id}`);
     
             if (response.status === 200) {
                 toast.success("Employee Deleted Successfully.");
