@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api";
 import { toast } from "react-toastify";
-import { useManagerDash } from "../../ManagerDashboard/Context/ManagerDashContext";
 
 const ManagerContext = createContext();
 
@@ -30,13 +29,11 @@ export const ManageProvider = ({ children }) => {
 
 
   const handleDeleteOpenModal = (Id) => {
-    // console.log("projID modal" , Id)
     setmanagerToDelete(Id);
     setShowDeleteModal(true);
   };
 
   const handleClose = () => {
-    // alert("hi")
     setShowDeleteModal(false);
     setShow(false)
   }
@@ -45,14 +42,12 @@ export const ManageProvider = ({ children }) => {
   const handleShow = (manager =null) => {
     console.log("manager handle show", manager); 
     if (!manager) {
-        // Agar null hai toh blank values set karo
         setManagerData({
             Id: manager?.Id || "",
             name: manager?.name || "",
             email: manager?.email || "",
           });
     } else {
-        // Agar employee hai toh uska data set karo
         setSelectedManager({
             id: manager.id,
             firstName: manager.firstName,

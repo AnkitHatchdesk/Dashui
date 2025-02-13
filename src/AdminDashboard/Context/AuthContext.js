@@ -28,13 +28,8 @@ export const AuthProvider = ({ children }) => {
   const[user , setUser] = useState("")
   const[errors , setErrors]= useState({})
 
-  console.log("user in detail" , user)
-
-  // console.log("loading" ,loading)
-
   const Navigate = useNavigate();
 
-  // const checkAuth = async () => {
   //   try {
   //     const response = await axiosInstance.get("/account/checkAuth");
   //     // console.log("response user", response.data.user);
@@ -59,28 +54,29 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log(token)
   
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
   
-        const currentTime = Date.now() / 1000; // Current time in seconds
+        const currentTime = Date.now() / 1000;
         if (decodedToken.exp < currentTime) {
           console.log("Token expired");
           localStorage.removeItem("token");
-          setUser(null); // Expired token ke case me user null kar do
+          setUser(null); 
         } else {
           setUser(decodedToken);
-          localStorage.setItem("user", JSON.stringify(decodedToken)); // Decode token se user ko set karo
+          localStorage.setItem("user", JSON.stringify(decodedToken)); 
         }
       } catch (error) {
         console.error("Invalid token", error);
         setUser(null); 
         localStorage.removeItem("token");
-        localStorage.removeItem("user");// Invalid token ke case me bhi user null kar do
+        localStorage.removeItem("user");
       }
     } else {
-      setUser(null); // Agar token hi nahi hai to user null hoga
+      setUser(null); 
     }
   }, [Navigate]);
 
